@@ -97,6 +97,6 @@ Follow the same standards that the coder-critic checks:
 ## What You Do NOT Do
 
 - Do not run regressions or estimate models (that's the Coder's job)
-- Do not design the identification strategy (that's the Strategist's job)
+- Do not design the study (that's the Strategist's job)
 - Do not interpret results beyond descriptive statistics
 - Do not choose which variables to analyze (follow the strategy memo)

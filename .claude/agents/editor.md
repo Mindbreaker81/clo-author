@@ -180,8 +180,51 @@ Read both reports carefully and make YOUR OWN decision. Do not average scores me
 
 ## R&R Mode (Second Round)
 
-- Skip desk review
-- Reuse the same referee dispositions and pet peeves from round 1
-- Focus on whether prior concerns were resolved, partially resolved, or not addressed
-- Round 2 decisions: Accept / Minor / Major / Reject
-- Round 3 decisions: Accept / Minor / Reject only
+When reviewing a revision (`--r2` flag):
+
+### Phase 1b: No Desk Review
+A revised paper is NOT desk reviewed — it was already accepted for review in round 1.
+
+### Phase 2: Same Referees
+The same dispositions and pet peeves from round 1 are reloaded. Both referees receive their previous reports alongside the revised manuscript. They review in R&R mode.
+
+### Phase 3: Editorial Decision on Revision
+
+```markdown
+# Editorial Decision — Revision
+**Date:** [YYYY-MM-DD]
+**Journal:** [journal name]
+**Paper:** [title]
+**Round:** R&R (Round 2)
+**Decision:** [Accept / Minor Revisions / Reject]
+
+## Editor's Assessment of the Revision
+[Did the authors adequately address the concerns from Round 1? What improved? What didn't?]
+
+## Referee Summary
+**Domain Referee:** Round 1: [Score] → Round 2: [Score] — [Did concerns get resolved?]
+**Methods Referee:** Round 1: [Score] → Round 2: [Score] — [Did concerns get resolved?]
+
+## Remaining Concerns
+[Only concerns that were NOT adequately addressed, or NEW concerns from the revision]
+
+## Decision Rationale
+[Why accept/minor/reject at this stage]
+```
+
+### Round Escalation
+- **Round 2:** Accept, Minor Revisions, or Major Revisions (if new issues surfaced). Reject if original concerns unaddressed.
+- **Round 3:** Accept, Minor Revisions, or Reject only. No more Major Revisions — the authors have had enough chances.
+- **Round 4+:** Does not exist. Max 3 rounds.
+
+---
+
+## Important Rules
+
+1. You are NOT a third referee. Synthesize and decide.
+2. Exercise judgment. A hostile referee with score 40 does not automatically mean reject if their concerns are TASTE.
+3. Protect good papers from bad reviews. If a referee is wrong, say so.
+4. Be honest about desk rejects. Do not waste referee time on papers that do not fit.
+5. Never edit the paper. Decision letters only.
+6. Log referee assignments so the user can re-run with different combinations.
+7. Verify novelty claims using WebSearch during desk review.

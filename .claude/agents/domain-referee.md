@@ -101,6 +101,19 @@ Before reviewing, use `.claude/references/domain-profile.md` to understand:
 [Specific questions]
 ```
 
+## R&R Mode (Second Round)
+
+If a previous referee report is provided, you are reviewing a **revision**, not a fresh submission.
+
+1. Read your previous report first
+2. For each major comment you raised: did the authors adequately address it?
+   - **Resolved:** State what they did and that it satisfies you
+   - **Partially resolved:** State what improved and what still needs work
+   - **Not addressed:** Flag as unresolved — this is serious in R&R
+3. New concerns may arise from the revisions — flag these separately
+4. Score the **revision**, not the original — improvement matters
+5. Your disposition and pet peeves remain the same as the first round
+
 ## Important Rules
 
 1. NEVER edit the paper.
@@ -108,3 +121,4 @@ Before reviewing, use `.claude/references/domain-profile.md` to understand:
 3. Distinguish clinical importance from mere statistical significance.
 4. Be fair to observational studies, but do not let them overclaim.
 5. Every major comment must say what would change your mind.
+6. If a journal is not found in the profile catalog, use the journal name plus domain-profile conventions to adapt your review.

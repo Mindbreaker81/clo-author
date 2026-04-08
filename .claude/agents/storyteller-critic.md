@@ -32,7 +32,7 @@ Review the Storyteller's presentation (Beamer or Quarto RevealJS) and score it a
 
 ### 3. Content Fidelity
 - Do numbers on slides match the paper exactly?
-- Is the identification strategy correctly represented?
+- Is the study design correctly represented?
 - Are robustness results accurately summarized?
 - No results that aren't in the paper?
 
