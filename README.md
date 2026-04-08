@@ -27,6 +27,107 @@ Then paste a prompt like:
 
 ---
 
+## Usage Guide
+
+### 1. Set Up Your Project
+
+Copy or fork the repo as the base for your project. This is a **template** — a directory structure + agents + skills that lives alongside your manuscript, not a package you install.
+
+```bash
+cp -r clo-author/ my-copd-study/
+cd my-copd-study/
+git init   # fresh git history for your project
+```
+
+### 2. Configure for Your Study
+
+Edit **`CLAUDE.md`** (the first file Claude reads on every session):
+- **Project:** name of your study
+- **Institution:** your hospital / university
+- **Field:** already set to Pulmonary Medicine / Interventional Pulmonology
+
+Then review **`.claude/references/domain-profile.md`** — it already contains datasets, journals, outcomes, and conventions for pulmonary medicine. Adjust it if your subarea is different (e.g., thoracic oncology, critical care, ILD).
+
+### 3. The Research Pipeline
+
+The repo is designed as a sequential pipeline. Each slash command invokes a worker-critic pair:
+
+```
+/discover interview [clinical question]  →  Research specification
+/discover lit [topic]                    →  PubMed / Cochrane search + annotated bibliography
+/discover data [topic]                   →  Data source evaluation (registries, EHR, cohorts)
+/strategize [question]                   →  Study design + analysis plan + registration strategy
+/analyze [dataset]                       →  Analysis scripts (R by default)
+/write [section]                         →  IMRAD manuscript sections
+/review [file]                           →  Simulated peer review with 2 referees
+/revise [report]                         →  Route referee comments + response planning
+/talk [format]                           →  Presentation (Beamer or Quarto)
+/submit [journal]                        →  Final gate: score >= 95
+```
+
+You do **not** have to run them in order. Enter at any point depending on your project stage.
+
+### 4. Practical Examples
+
+**Starting from scratch (new research question):**
+
+```
+/discover interview endobronchial valves for severe emphysema
+```
+
+**Already have data, want to write a paper:**
+
+1. Fill in `CLAUDE.md` with your project metadata
+2. `/discover lit [your topic]` — generates the bibliography
+3. `/strategize [your question]` — produces a design memo with the reporting guideline
+4. Write your R scripts in `scripts/R/`
+5. `/write introduction` — drafts the intro based on the strategy memo
+6. `/review paper/main.tex --peer AJRCCM` — peer review calibrated to the target journal
+
+**Quick code review only:**
+
+```
+/review scripts/R/01_main_analysis.R --code
+```
+
+### 5. Compile the Manuscript
+
+```bash
+cd paper
+TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
+BIBINPUTS=..:$BIBINPUTS biber main
+TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
+TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
+```
+
+### 6. Where Everything Goes
+
+| What you produce | Where it lives |
+|---|---|
+| LaTeX manuscript | `paper/main.tex` + `paper/sections/` |
+| Figures | `paper/figures/` |
+| Tables | `paper/tables/` |
+| R / Python scripts | `scripts/R/` or `scripts/python/` |
+| Raw data | `data/raw/` (typically gitignored) |
+| Cleaned data | `data/cleaned/` |
+| Plans, reviews, session logs | `quality_reports/` |
+| Bibliography | `Bibliography_base.bib` |
+| Clinical guidelines, protocols | `master_supporting_docs/` |
+
+### 7. Quality Gates
+
+The system uses weighted scores. Nothing advances without passing the gate:
+
+| Score | Gate | When |
+|---|---|---|
+| >= 80 | Commit | After any code or paper change |
+| >= 90 | PR | Before merging |
+| >= 95 | Submission | Before sending to a journal (all components >= 80) |
+
+Scores are computed automatically by the critic agents when you run `/review`.
+
+---
+
 ## What It Does
 
 ### Contractor Mode
