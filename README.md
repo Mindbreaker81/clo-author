@@ -1,36 +1,29 @@
-# The Clo-Author: AI Research Architecture for Empirical Social Science
+# The Clo-Author: AI Research Architecture for Medical and Clinical Research
 
 [![Version](https://img.shields.io/github/v/release/hugosantanna/clo-author?style=flat-square&color=b44dff&label=version)](CHANGELOG.md)
 
-> **Work in progress.** This repo is evolving as I learn, and I share it in case others find it useful and would like to build upon it. Expect rough edges.
+> **Work in progress.** This repo is evolving as the workflow is adapted to clinical and translational research.
 
-An open-source [Claude Code](https://docs.anthropic.com/en/docs/claude-code) architecture that turns your terminal into a research assistant for empirical social science — economics, finance, marketing, management, accounting, and public policy. From literature review to journal submission.
+An open-source research architecture that turns your terminal into a medical-research assistant — from literature review to journal submission. The default calibration in this fork is **pulmonary medicine / interventional pulmonology**, but the structure is reusable across clinical specialties.
 
 **Live guide:** [hugosantanna.github.io/clo-author](https://hugosantanna.github.io/clo-author/)
-<br>**Built on:** [Pedro Sant'Anna's claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow)
+**Built on:** [Pedro Sant'Anna's claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow)
 
 ---
 
 ## Quick Start
 
 ```bash
-# 1. Fork and clone
 gh repo fork hugosantanna/clo-author --clone
 cd clo-author
-
-# 2. Open Claude Code
 claude
 ```
 
-Then paste this prompt:
+Then paste a prompt like:
 
-> I am starting a new empirical research project in **[YOUR FIELD]** on **[YOUR TOPIC]**.
-> Read CLAUDE.md and help me set up the project structure.
-> Start with a literature review on [YOUR TOPIC].
-
-Claude reads the configuration, fills in your project details, and works autonomously — planning, implementing, reviewing, and verifying.
-
-**Using VS Code?** Open the Claude Code panel instead. Everything works the same.
+> I am starting a new clinical research project in pulmonary medicine on **[YOUR TOPIC]**.
+> Read `CLAUDE.md` and help me set up the project structure.
+> Start with `/discover interview [YOUR TOPIC]`.
 
 ---
 
@@ -38,59 +31,53 @@ Claude reads the configuration, fills in your project details, and works autonom
 
 ### Contractor Mode
 
-You describe a task. Claude plans the approach, implements it, runs specialized review agents, fixes issues, re-verifies, and scores against quality gates — all autonomously. You approve the plan and see a summary when the work meets quality standards.
+You describe the task. Claude plans the work, dispatches specialist agents, runs reviews, fixes issues, and re-verifies outputs before handoff.
 
-### Specialized Agents in Worker-Critic Pairs
+### Worker-Critic Pairs
 
-Every creator has a paired critic. Critics can't edit files; creators can't score themselves.
+Every creator has a paired critic.
 
-| Phase | Worker (Creates) | Critic (Reviews) |
-|-------|-----------------|-----------------|
+| Phase | Worker | Critic |
+|------|--------|--------|
 | Discovery | Librarian | librarian-critic |
 | Discovery | Explorer | explorer-critic |
-| Strategy | Strategist | strategist-critic |
-| Execution | Coder | coder-critic |
-| Execution | Data-engineer | coder-critic |
-| Paper | Writer | writer-critic |
-| Peer Review | Editor → domain-referee + methods-referee | — |
+| Design | Strategist | strategist-critic |
+| Execution | Coder / Data-engineer | coder-critic |
+| Manuscript | Writer | writer-critic |
+| Peer review | Editor → domain-referee + methods-referee | — |
 | Presentation | Storyteller | storyteller-critic |
 | Infrastructure | Orchestrator, Verifier | — |
 
-### Realistic Peer Review Simulation
+### Medical Peer Review Simulation
 
-`/review --peer [journal]` simulates a full journal submission:
+`/review --peer [journal]` simulates a real medical submission:
 
-1. **Editor desk review** — reads your paper, verifies novelty claims via web search, decides: desk reject or send to referees
-2. **Referee assignment** — editor selects two referees with intellectual dispositions (Structuralist, Credibility, Measurement, Policy, Theory, Skeptic) weighted by journal culture
-3. **Independent blind reports** — each referee scores on 5 dimensions with pet peeves (1 critical, 1 constructive), and every major comment includes "what would change my mind"
-4. **Editorial decision** — editor classifies each concern as FATAL / ADDRESSABLE / TASTE, sides with one referee when they disagree, produces MUST / SHOULD / MAY action items
+1. **Editor desk review** — fit, novelty, ethics / reporting completeness, and bar
+2. **Referee assignment** — two different dispositions chosen from: Clinical, Methodological, Evidence, Ethical, Statistical, Translational, Skeptic
+3. **Blind reports** — domain and methods referees review independently
+4. **Editorial decision** — accept / minor / major / reject with MUST / SHOULD / MAY buckets
 
-Additional modes:
-- `--stress [journal]` — adversarial referees for pre-submission battle testing
-- `--peer --r2 [journal]` — R&R second round with referee memory (checks whether prior concerns were addressed)
-- Max 3 rounds, then the editor's patience runs out — just like real life
+### Core Commands
 
-**30 journal profiles** across economics, finance, accounting, marketing, and management (all top-tier, A* in the Australian Business Deans Council ranking), each with calibrated referee pools.
-
-### 10 Slash Commands
-
-| Category | Commands |
-|----------|----------|
-| **Research** | `/new-project`, `/discover`, `/strategize`, `/analyze`, `/write` |
-| **Review** | `/review`, `/revise` |
-| **Output** | `/talk`, `/submit` |
-| **Tools** | `/tools` (commit, compile, validate-bib, journal, learn, deploy, context) |
+- `/new-project`
+- `/discover`
+- `/strategize`
+- `/analyze`
+- `/write`
+- `/review`
+- `/revise`
+- `/talk`
+- `/submit`
+- `/tools`
 
 ### Quality Gates
 
-Weighted aggregate scoring with per-component minimums:
-
 | Score | Gate | Applies To |
-|-------|------|------------|
-| 80 | Commit | Weighted aggregate (blocking) |
-| 90 | PR | Weighted aggregate (blocking) |
+|------|------|------------|
+| 80 | Commit | Weighted aggregate |
+| 90 | PR | Weighted aggregate |
 | 95 | Submission | Aggregate + all components >= 80 |
-| -- | Advisory | Talks (reported, non-blocking) |
+| -- | Advisory | Talks |
 
 ---
 
@@ -98,77 +85,80 @@ Weighted aggregate scoring with per-component minimums:
 
 ```
 your-project/
-├── CLAUDE.md                    # Project configuration (fill in placeholders)
-├── .claude/                     # Agents, skills, rules, references, hooks
-├── Bibliography_base.bib        # Centralized bibliography
-├── paper/                       # Main LaTeX manuscript (source of truth)
+├── CLAUDE.md
+├── .claude/
+├── Bibliography_base.bib
+├── paper/
 │   ├── main.tex
 │   ├── sections/
 │   ├── figures/
 │   ├── tables/
-│   ├── talks/                   # Beamer presentations
-│   ├── quarto/                  # Quarto RevealJS presentations
-│   ├── preambles/               # Shared LaTeX headers
-│   ├── supplementary/           # Online appendix
-│   └── replication/             # Replication package for deposit
-├── data/                        # Raw and cleaned datasets
-├── scripts/                     # Analysis code (R, Stata, Python, Julia)
-├── quality_reports/             # Plans, session logs, reviews, scores
-├── explorations/                # Research sandbox
-└── master_supporting_docs/      # Reference papers and data docs
+│   ├── talks/
+│   ├── quarto/
+│   ├── preambles/
+│   ├── supplementary/
+│   └── replication/
+├── data/
+├── scripts/
+├── quality_reports/
+├── explorations/
+└── master_supporting_docs/
 ```
+
+---
+
+## Medical-First Defaults
+
+This fork defaults to:
+
+- **Structured abstracts**
+- **IMRAD manuscript structure**
+- **CONSORT / STROBE / PRISMA / STARD-aware review flows**
+- **IRB / consent / registration / adverse-event checks**
+- **Clinical effect reporting** (HR / OR / RR / absolute risks / NNT when relevant)
+- **PubMed / Cochrane / ClinicalTrials.gov discovery workflows**
+
+---
+
+## Built-In Validation Fixtures
+
+This fork intentionally keeps minimal smoke-test sources in `paper/` so the local manuscript and presentation toolchain can be verified immediately:
+
+- `paper/main.tex` + `paper/references.bib` — minimal manuscript fixture for `xelatex` + `biber`
+- `paper/talks/full_talk.tex` — minimal Beamer talk fixture
+- `paper/quarto/full_talk.qmd` — minimal Quarto RevealJS talk fixture
+
+These files are **toolchain fixtures, not real project content**. Keep them as references or replace them once a real manuscript and talks exist.
 
 ---
 
 ## Prerequisites
 
-| Tool | Required For | Install |
-|------|-------------|---------|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | Everything | `npm install -g @anthropic-ai/claude-code` |
-| XeLaTeX | Paper compilation | [TeX Live](https://tug.org/texlive/) or [MacTeX](https://tug.org/mactex/) |
-| R | Analysis & figures | [r-project.org](https://www.r-project.org/) |
-| [gh CLI](https://cli.github.com/) | GitHub integration | `brew install gh` (macOS) |
-
-Optional: Stata, Python, Julia (for multi-language analysis), [Quarto](https://quarto.org) (web slides).
+| Tool | Required For |
+|------|--------------|
+| Claude Code | Everything |
+| XeLaTeX + biber | Paper compilation |
+| R / Python / Stata / Julia | Analysis |
+| gh CLI | GitHub integration |
+| Quarto (optional) | Guide site / web slides |
 
 ---
 
-## Adapting for Your Field
+## Adapting the Fork
 
-1. **Fill in `CLAUDE.md`** — replace `[BRACKETED PLACEHOLDERS]` with your project details
-2. **Fill in the domain profile** (`.claude/references/domain-profile.md`) — your field's journals, data sources, identification strategies, conventions, and seminal references. Use `/discover interview` to populate it interactively.
-3. **Add journal profiles** — 30 profiles are included. Add your own to `.claude/references/journal-profiles.md` using the template at the bottom of the file.
-4. **Configure your language** — R is the default; Stata, Python, and Julia are also supported. Set your preference in CLAUDE.md.
+1. Update `CLAUDE.md` with your project details
+2. Fill in `.claude/references/domain-profile.md`
+3. Extend `.claude/references/journal-profiles.md` if you need more journals
+4. Adjust `.claude/references/reporting-guidelines.md` if your field needs additional checklists (for example TRIPOD, CARE, ARRIVE)
 
 ---
 
 ## Origin
 
-This project builds on [Pedro Sant'Anna's claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow), which was built for Econ 730 at Emory University. The Clo-Author reorients that infrastructure from lecture production to empirical research publication, and expands the scope from economics to all empirical social science.
-
-Maintained by [Hugo Sant'Anna](https://hsantanna.org) at UAB.
-
----
-
-## Upgrading from 2.x
-
-Your files are safe. The upgrade only touches `.claude/` (infrastructure). Your paper, scripts, data, and bibliography are never modified.
-
-1. **Download** the [latest release](https://github.com/hugosantanna/clo-author/releases) or clone clo-author 3.0 into a temp folder
-2. **Delete** your old `.claude/` directory
-3. **Copy** the new `.claude/` into your project
-4. **Done** — your CLAUDE.md, paper, scripts, and data are untouched
-
-No git merge, no upstream remote, no conflicts. Once on 3.0, future upgrades can use `/tools upgrade`.
-
----
-
-## Context Efficiency
-
-The 3.0 architecture loads 71% fewer tokens per session compared to 2.x. Reference files (journal profiles, domain profiles) load on demand — only when agents need them. Rules are path-scoped where possible. You get more done with less context consumed.
+This project builds on Pedro Sant'Anna's workflow-oriented Claude setup, but the current fork reorients it toward clinical and translational research with a pulmonary medicine default.
 
 ---
 
 ## License
 
-MIT License. Fork it, customize it, make it yours.
+MIT License.

@@ -1,11 +1,11 @@
 # Journal Profiles
 
 <!--
-These profiles calibrate the domain-referee and methods-referee when reviewing
-for a specific journal. Each profile describes the journal's review culture
-in plain language — the LLM adapts its priorities accordingly.
+These profiles calibrate the editor, domain-referee, and methods-referee
+when reviewing for a specific journal. Each profile describes the journal's
+review culture in plain language so the LLM can adapt naturally.
 
-Used by: domain-referee.md, methods-referee.md (via /review --peer [journal])
+Used by: editor.md, domain-referee.md, methods-referee.md, /review --peer
 -->
 
 ## How This Works
@@ -15,339 +15,224 @@ When `/review --peer [journal]` is invoked:
 1. **Editor reads the paper** → desk review (reject or send to referees)
 2. **Editor selects referees** → draws dispositions and pet peeves from the journal's **Referee pool**
 3. **Profile found below** → referees calibrate using the full profile
-4. **Profile NOT found** → referees use the journal name + .claude/references/domain-profile.md to adapt (still better than generic)
-5. **No journal specified** → generic top-field referee behavior
+4. **Profile NOT found** → referees use the journal name + `.claude/references/domain-profile.md` to adapt
+5. **No journal specified** → generic medical specialty referee behavior
 
 ### Referee Pool Field
 
-Each journal profile includes a **Referee pool** that weights which dispositions the editor draws from. The two referees always get DIFFERENT dispositions. Dispositions: STRUCTURAL, CREDIBILITY, MEASUREMENT, POLICY, THEORY, SKEPTIC (see editor.md for definitions).
+Each journal profile includes a **Referee pool** that weights which dispositions the editor draws from. The two referees always get DIFFERENT dispositions.
+
+Dispositions:
+- **CLINICAL** — patient-important outcomes, bedside usefulness, guideline relevance
+- **METHODOLOGICAL** — study design integrity, bias control, reporting completeness
+- **EVIDENCE** — hierarchy of evidence, literature synthesis, certainty, guideline positioning
+- **ETHICAL** — consent, IRB, registration, safety, transparency, conflicts
+- **STATISTICAL** — effect measures, power, survival methods, multiplicity, missing data
+- **TRANSLATIONAL** — mechanism-to-practice bridge, biomarker relevance, bench-to-bedside logic
+- **SKEPTIC** — assumes the paper is not ready and looks for the failure mode first
 
 ---
 
-## Economics
+## Medicine
 
-**Top-5 General Interest**
+**General Medicine**
 
-### American Economic Review (AER)
-**Focus:** All fields of economics — the broadest audience
-**Bar:** Must interest economists outside your subfield. Big question, clean execution, clear contribution.
-**Domain referee adjusts:** "Would a labor economist care about this health paper?" Contribution must be broad. Literature positioning against the *general* frontier, not just subfield. Policy implications welcome but not required — insight is enough.
-**Methods referee adjusts:** Identification must be convincing to non-specialists. Clean, transparent design preferred over technically complex one. Standard errors and robustness should be thorough but not excessive.
-**Typical concerns:** "Why should economists outside this field care?" "Is the contribution big enough for AER?" "Is this too narrow/specialized?"
-**Referee pool:** CREDIBILITY (high), POLICY (medium), STRUCTURAL (medium), MEASUREMENT (low), THEORY (low), SKEPTIC (low)
+### New England Journal of Medicine (NEJM)
+**Focus:** Practice-changing clinical and translational medicine for a broad physician audience.
+**Bar:** Major question, near-definitive evidence, and immediate implications for care or guidelines.
+**Domain referee adjusts:** Patient-important outcomes, disease burden, safety, and whether the result would change decisions beyond a narrow subspecialty.
+**Methods referee adjusts:** Trial conduct, endpoint choice, follow-up, missingness, subgroup restraint, and clear absolute benefits and harms.
+**Typical concerns:** "Is this clinically decisive or just statistically positive?" "Are the outcomes patient-important?" "Is the safety and follow-up evidence mature enough?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (high), EVIDENCE (high), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (medium), SKEPTIC (low)
 
-### Econometrica (ECMA)
-**Focus:** Theoretical and empirical economics with formal rigor
-**Bar:** Methodological innovation or empirical work with exceptional identification and formal results.
-**Domain referee adjusts:** Theoretical contribution valued highly. If empirical, the design must be near-airtight. Formal welfare analysis expected. Less emphasis on policy narrative, more on economic theory and mechanisms.
-**Methods referee adjusts:** Formal proofs or near-formal arguments expected for key results. Asymptotic properties discussed. Novel estimators should have theoretical justification. Simulation evidence for finite-sample properties.
-**Typical concerns:** "Where's the formal result?" "What are the asymptotic properties?" "Is this a methods contribution or an applied contribution?"
-**Referee pool:** THEORY (high), STRUCTURAL (high), SKEPTIC (medium), CREDIBILITY (low), MEASUREMENT (low), POLICY (low)
+### The Lancet
+**Focus:** High-impact clinical medicine, public health, and health policy with international relevance.
+**Bar:** Must matter beyond one setting and speak to population health, health systems, or globally salient clinical practice.
+**Domain referee adjusts:** Equity, implementation, public-health significance, and whether the paper speaks to clinicians and policy audiences across countries.
+**Methods referee adjusts:** Rigorous design plus transparent limits, with explicit attention to external validity, harms, and real-world applicability.
+**Typical concerns:** "Is this globally important or mainly local?" "Where is the equity or implementation insight?" "Are the policy claims too strong for the data?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (high), ETHICAL (high), STATISTICAL (medium), TRANSLATIONAL (high), SKEPTIC (medium)
 
-### Journal of Political Economy (JPE)
-**Focus:** All fields — strong emphasis on economic mechanisms and structural thinking
-**Bar:** Deep economic insight. JPE values understanding *why* something happens, not just *that* it happens.
-**Domain referee adjusts:** Mechanism is king. Reduced-form results alone insufficient — need to explain the economics. Structural models or mechanism tests expected. Theoretical framework (even informal) valued.
-**Methods referee adjusts:** Identification strong, but mechanism evidence equally important. Heterogeneity that illuminates the mechanism. Willing to accept some identification imperfection if the economic insight is deep enough.
-**Typical concerns:** "What's the mechanism?" "Can you decompose the effect?" "What does this tell us about economic behavior?"
-**Referee pool:** STRUCTURAL (high), THEORY (high), CREDIBILITY (medium), SKEPTIC (medium), POLICY (low), MEASUREMENT (low)
+### JAMA
+**Focus:** Clinically consequential medicine, health systems, and public health for a broad generalist readership.
+**Bar:** Important, readable, actionable findings for practicing physicians, health system leaders, or guideline-facing audiences.
+**Domain referee adjusts:** Patient care, care delivery, population impact, and whether the finding is useful outside the immediate subspecialty.
+**Methods referee adjusts:** Clean design, disciplined causal language, transparent effect sizes, appropriate confounding control, and restrained subgroup claims.
+**Typical concerns:** "Is this too subspecialized for JAMA?" "Is the clinical importance large enough?" "Are associative data being overstated as causal?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (high), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (medium), SKEPTIC (medium)
 
-### Quarterly Journal of Economics (QJE)
-**Focus:** All fields — prizes compelling narrative and important questions
-**Bar:** The question must be important and the answer must surprise. QJE loves papers that change how you think about something.
-**Domain referee adjusts:** Narrative matters enormously. The paper should read like a story with a punchline. Broad implications. Creative use of data or setting. "Clever" identification valued.
-**Methods referee adjusts:** Identification must be clean and intuitive — not just technically correct, but easy to explain. Transparency and simplicity over complexity. Visual evidence (event studies, RD plots) highly valued.
-**Typical concerns:** "Is this surprising?" "Does this change how we think about X?" "Can you explain the identification in one sentence?"
-**Referee pool:** CREDIBILITY (high), POLICY (high), SKEPTIC (medium), STRUCTURAL (low), THEORY (low), MEASUREMENT (low)
+### BMJ
+**Focus:** Evidence-based medicine, clinical decision-making, health services, and policy with a strong patient and public-interest orientation.
+**Bar:** Should improve real-world decisions, usually with clear implications for practice, systems, or policy rather than technical novelty alone.
+**Domain referee adjusts:** Patient-centeredness, equity, overdiagnosis or overtreatment, transparency, and usefulness for clinicians or policymakers.
+**Methods referee adjusts:** Careful reporting, conservative causal language, absolute risks and harms, protocol fidelity, and explicit treatment of bias, multiplicity, and missing data.
+**Typical concerns:** "Does this improve decisions in practice?" "Are patient-important outcomes and harms clear?" "Is there spin, unresolved confounding, or weak transparency?"
+**Referee pool:** CLINICAL (medium), METHODOLOGICAL (high), EVIDENCE (high), ETHICAL (high), STATISTICAL (high), TRANSLATIONAL (medium), SKEPTIC (high)
 
-### Review of Economic Studies (REStud)
-**Focus:** All fields — technically excellent empirical and theoretical work
-**Bar:** Technical quality must be top-tier. Values precision and completeness over narrative.
-**Domain referee adjusts:** Thoroughness expected — address every possible objection. Complete set of robustness checks. Careful literature review. Less emphasis on storytelling than QJE, more on completeness.
-**Methods referee adjusts:** Every specification must be justified. Full battery of robustness checks expected. Sensitivity analysis (Oster bounds, etc.). Careful treatment of inference. Multiple testing corrections if applicable.
-**Typical concerns:** "Have you checked robustness to X?" "What about specification Y?" "The inference needs more care."
-**Referee pool:** SKEPTIC (high), MEASUREMENT (high), CREDIBILITY (medium), THEORY (medium), STRUCTURAL (low), POLICY (low)
+### Annals of Internal Medicine
+**Focus:** Evidence that directly informs adult internal medicine practice, prevention, diagnosis, therapeutics, and guideline-facing care.
+**Bar:** Rigorous, clinically useful work relevant to general internists rather than only a narrow referral population.
+**Domain referee adjusts:** Everyday inpatient and ambulatory applicability, patient-important outcomes, and whether the paper clarifies a common diagnostic or therapeutic decision.
+**Methods referee adjusts:** Trial conduct, comparative-effectiveness logic, diagnostic performance, evidence certainty, and cautious interpretation of observational designs.
+**Typical concerns:** "Would a general internist change practice?" "Is the evidence strong enough for common care decisions?" "Are applicability and harms adequately handled?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (high), EVIDENCE (high), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (medium)
 
----
+**Respiratory Medicine**
 
-**Top Field Journals**
+### American Journal of Respiratory and Critical Care Medicine (AJRCCM)
+**Focus:** Flagship ATS journal for pulmonary, critical care, and sleep medicine; publishes influential clinical, translational, epidemiologic, and mechanistic studies.
+**Bar:** Must materially advance respiratory or ICU practice, or meaningfully deepen disease understanding; incremental work rarely clears.
+**Domain referee adjusts:** Prioritizes patient-important outcomes, strong phenotyping, and a clear bridge between mechanism and clinical relevance.
+**Methods referee adjusts:** Expects CONSORT/STROBE-level reporting, careful confounding control, appropriate survival methods, transparent missing-data handling, and restrained subgroup claims.
+**Typical concerns:** "Is this important enough for the Blue Journal?" "Are the endpoints clinically meaningful?" "Does the mechanistic story truly support the clinical claim?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (high), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (high), SKEPTIC (medium)
 
-### American Economic Journal: Applied Economics (AEJ:Applied)
-**Focus:** Empirical microeconomics — labor, health, education, development, public
-**Bar:** Clean applied micro paper with credible identification and clear results. Slightly below top-5 bar but same rigor expectations.
-**Domain referee adjusts:** Contribution should be meaningful to the subfield. Practical policy relevance appreciated. Literature positioning within the subfield, not the general field.
-**Methods referee adjusts:** Same identification standards as top-5. Modern estimators expected (no naive TWFE for staggered). Replication package expected.
-**Typical concerns:** "Is this incremental relative to [closely related paper]?" "Would this be better in a field journal?"
-**Referee pool:** CREDIBILITY (high), POLICY (medium), MEASUREMENT (medium), SKEPTIC (low), STRUCTURAL (low), THEORY (low)
+### Lancet Respiratory Medicine
+**Focus:** Highest-impact respiratory specialty journal for practice-changing trials, global respiratory health, critical care, and major translational advances.
+**Bar:** Needs international importance, strong novelty, and clear implications for practice, policy, or the field’s direction.
+**Domain referee adjusts:** Wants big clinical questions, patient-centered endpoints, and results that matter beyond a narrow subspecialty.
+**Methods referee adjusts:** Trial registration, protocol fidelity, multiplicity control, safety reporting, prespecified analyses, and external validity are scrutinized heavily.
+**Typical concerns:** "Is this truly practice-changing?" "Are benefits clinically important and harms fully characterized?" "Does it matter globally, not just locally?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (high), EVIDENCE (high), ETHICAL (high), STATISTICAL (high), TRANSLATIONAL (medium), SKEPTIC (medium)
 
-### American Economic Journal: Economic Policy (AEJ:Policy)
-**Focus:** Policy evaluation and design — how policies affect outcomes
-**Bar:** Must have direct policy relevance. Natural experiments from actual policy changes preferred.
-**Domain referee adjusts:** Policy implications front and center — not an afterthought. Cost-benefit or welfare discussion expected. Institutional details of the policy must be well-documented. Generalizability to other policy contexts.
-**Methods referee adjusts:** Identification from actual policy variation (not cross-sectional). Pre-trends must be clean. Heterogeneity by policy-relevant subgroups expected. Back-of-envelope welfare calculations.
-**Typical concerns:** "What should policymakers do with this?" "Does this generalize to other states/countries?" "What's the cost-benefit?"
-**Referee pool:** POLICY (high), CREDIBILITY (high), MEASUREMENT (medium), STRUCTURAL (low), THEORY (low), SKEPTIC (low)
+### European Respiratory Journal (ERJ)
+**Focus:** Flagship ERS journal covering clinical, translational, and basic respiratory science across the full spectrum of lung disease.
+**Bar:** Top specialty paper with broad interest to respiratory clinicians and scientists; novelty matters, but completeness and relevance matter just as much.
+**Domain referee adjusts:** Emphasizes respiratory phenotyping, guideline relevance, and a clear bridge between pathobiology and patient care.
+**Methods referee adjusts:** Wants strong design, contemporary respiratory biostatistics, good sensitivity analyses, and reporting that travels across international cohorts and registries.
+**Typical concerns:** "Is this more than incremental?" "Does it change disease interpretation or management?" "Are findings generalizable across settings?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (high), ETHICAL (low), STATISTICAL (medium), TRANSLATIONAL (high), SKEPTIC (medium)
 
-### Journal of Human Resources (JHR)
-**Focus:** Labor economics, education, health, demography
-**Bar:** Strong empirical contribution with clear policy relevance and careful identification.
-**Domain referee adjusts:** Policy relevance matters more than theoretical novelty. External validity — can results inform actual policy? Sample representativeness. Heterogeneity analysis by policy-relevant subgroups expected. Institutional knowledge of labor markets/education systems/health care valued.
-**Methods referee adjusts:** Clean identification is non-negotiable. Modern staggered DiD estimators required if applicable. Robustness to functional form. Pre-trends must be clean and shown. Replication package expected at acceptance.
-**Typical concerns:** "What's the policy implication?" "Does this generalize beyond your sample?" "Have you considered heterogeneity by [race/gender/income]?"
-**Referee pool:** CREDIBILITY (high), POLICY (high), MEASUREMENT (medium), SKEPTIC (low), STRUCTURAL (low), THEORY (low)
+### Thorax
+**Focus:** High-impact BMJ / BTS journal for respiratory medicine and critical care, especially work with a crisp clinical or translational takeaway.
+**Bar:** Needs a sharp message, specialty-wide interest, and visible relevance to clinicians, investigators, or guideline development.
+**Domain referee adjusts:** Prefers clinically anchored mechanistic work, strong respiratory epidemiology, and manuscripts that clearly state what they add.
+**Methods referee adjusts:** Demands clean reporting, causal modesty in observational work, solid sensitivity analyses, and clear safety or harms presentation.
+**Typical concerns:** "What changes after reading this?" "Is the endpoint patient-important?" "Are causal claims stronger than the design allows?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (medium), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (high), SKEPTIC (medium)
 
-### Journal of Health Economics (JHE)
-**Focus:** Health economics — insurance, utilization, provider behavior, public health
-**Bar:** Sound health economics with credible identification. Institutional knowledge of health care systems expected.
-**Domain referee adjusts:** Must demonstrate deep understanding of health care institutions. Moral hazard vs. adverse selection distinction matters. Welfare implications expected. Connection to health policy debates. Knowledge of CMS data, insurance markets, provider incentives.
-**Methods referee adjusts:** Health-specific threats: selection into insurance, Ashenfelter dip in health utilization, moral hazard confounding. IV exclusion restrictions scrutinized heavily in health contexts. GLM for cost outcomes expected alongside OLS.
-**Typical concerns:** "Is this moral hazard or adverse selection?" "Have you addressed selection into treatment?" "What about the Medicaid population specifically?"
-**Referee pool:** STRUCTURAL (high), MEASUREMENT (high), POLICY (medium), CREDIBILITY (medium), THEORY (low), SKEPTIC (low)
+### CHEST
+**Focus:** Broad pulmonary, critical care, sleep, and thoracic medicine journal with strong emphasis on bedside applicability and multidisciplinary care.
+**Bar:** Strong clinically useful paper; it need not be field-defining, but it must inform management, diagnosis, procedures, or care delivery.
+**Domain referee adjusts:** Rewards pragmatic studies, guideline-relevant questions, procedural papers with real-world detail, and outcomes clinicians can act on.
+**Methods referee adjusts:** Expects transparent inclusion criteria, appropriate comparators, practical subgroup analyses, complication reporting, and statistics clinicians can trust.
+**Typical concerns:** "Will this change what I do tomorrow?" "Is the cohort representative of real practice?" "Are procedural risks and implementation details clear?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (high), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (low)
 
-### RAND Journal of Economics (RAND)
-**Focus:** Industrial organization, regulation, antitrust, health care markets
-**Bar:** IO-flavored analysis with market structure or firm behavior component. Structural or quasi-experimental.
-**Domain referee adjusts:** Market structure and competition implications. Firm behavior and strategic incentives. Regulatory implications. Welfare analysis (consumer surplus, total surplus) expected.
-**Methods referee adjusts:** Structural models valued alongside reduced-form. Demand estimation methods (BLP, discrete choice). Entry/exit models. Merger simulation if relevant. Reduced-form papers need very clean identification.
-**Typical concerns:** "What does this imply for market structure?" "Consumer welfare impact?" "Can you do a structural analysis?"
-**Referee pool:** STRUCTURAL (high), THEORY (high), SKEPTIC (medium), POLICY (medium), CREDIBILITY (low), MEASUREMENT (low)
+### Respiratory Medicine
+**Focus:** Broad clinical respiratory journal centered on diagnosis, management, therapeutics, rehabilitation, and real-world respiratory care.
+**Bar:** Well-executed applied respiratory study with clear clinical relevance; novelty threshold is solid but not elite-journal level.
+**Domain referee adjusts:** Likes treatment effectiveness, symptom and function outcomes, chronic disease management, and data that can inform routine care.
+**Methods referee adjusts:** Sound design and clear reporting matter more than flashy methods; expects adequate power, appropriate adjustment, and conclusions matched to evidence.
+**Typical concerns:** "Is the clinical contribution large enough?" "Is this underpowered or too single-center?" "Are outcomes meaningful to respiratory practice?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (medium), ETHICAL (low), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (low)
 
-### Journal of Public Economics (JPubE)
-**Focus:** Tax policy, public goods, redistribution, government programs
-**Bar:** Public finance question with clean identification. Understanding of tax/transfer system mechanics.
-**Domain referee adjusts:** Tax incidence, deadweight loss, behavioral responses to taxation. Program evaluation of government interventions. Fiscal federalism. Redistribution and inequality. Knowledge of tax code and transfer programs.
-**Methods referee adjusts:** Bunching estimators for tax kinks/notches. RDD at eligibility thresholds. DiD around policy changes. Structural models of labor supply response. Extensive vs. intensive margin effects.
-**Typical concerns:** "What's the elasticity?" "Extensive or intensive margin?" "Welfare implications of the tax/transfer change?"
-**Referee pool:** STRUCTURAL (high), POLICY (high), CREDIBILITY (medium), THEORY (medium), MEASUREMENT (low), SKEPTIC (low)
+### Respiration
+**Focus:** Clinical and experimental pulmonology with notable strength in interventional pulmonology, respiratory physiology, critical care, and sleep-related work.
+**Bar:** Strong specialty paper, especially for procedural, diagnostic, device, or physiology-driven studies with clear patient relevance.
+**Domain referee adjusts:** Expects technical credibility, careful safety reporting, and a persuasive link from procedural or physiologic findings to patient benefit.
+**Methods referee adjusts:** Diagnostic accuracy, feasibility, and intervention studies must describe operators, complications, follow-up, and sources of bias in detail.
+**Typical concerns:** "Is this reproducible beyond expert centers?" "Are safety events fully described?" "Does the physiology translate into meaningful clinical value?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (medium), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (high), SKEPTIC (medium)
 
-### Journal of Labor Economics (JLE)
-**Focus:** Labor markets — wages, employment, human capital, discrimination, immigration
-**Bar:** Clean labor economics with careful identification. Understanding of labor market institutions.
-**Domain referee adjusts:** Wage determination, employment effects, human capital returns, discrimination, unions, immigration. Mincer equations and labor supply models. Firm-worker matched data valued. Monopsony and market power in labor markets.
-**Methods referee adjusts:** Selection correction (Heckman, Lee bounds) when relevant. Decomposition methods for wage gaps. Clean identification of causal effects on wages/employment. Event study designs around job transitions or policy changes.
-**Typical concerns:** "Is this a supply or demand effect?" "Selection into employment?" "What about general equilibrium effects?"
-**Referee pool:** CREDIBILITY (high), STRUCTURAL (medium), MEASUREMENT (medium), THEORY (medium), POLICY (low), SKEPTIC (low)
+### ERJ Open Research
+**Focus:** Fully open-access ERS journal for broad respiratory research, with an inclusive and rapid-publication orientation.
+**Bar:** Must be clearly relevant and methodologically sound; novelty helps, but solid execution can beat lack of flash.
+**Domain referee adjusts:** Welcomes clinically useful, emerging, confirmatory, and niche respiratory studies if the question is clear and the reporting is complete.
+**Methods referee adjusts:** Prioritizes transparency, reporting-guideline compliance, sensible statistics, and conclusions that stay proportional to the design.
+**Typical concerns:** "Is the respiratory relevance clear?" "Is the reporting complete enough for reproducibility?" "Are claims too strong for the study design?"
+**Referee pool:** CLINICAL (medium), METHODOLOGICAL (high), EVIDENCE (medium), ETHICAL (low), STATISTICAL (medium), TRANSLATIONAL (medium), SKEPTIC (low)
 
-### Journal of Development Economics (JDE)
-**Focus:** Development economics — poverty, institutions, agriculture, trade in developing countries
-**Bar:** Credible empirical evidence on development questions. RCTs or strong quasi-experimental designs. Field knowledge.
-**Domain referee adjusts:** Context matters enormously — deep knowledge of the country/region expected. External validity to other developing country settings. Implementation details for interventions. Cost-effectiveness. Sustainability of effects. Gender and equity dimensions.
-**Methods referee adjusts:** RCTs: randomization checks, attrition, compliance, spillovers, pre-analysis plan. Quasi-experimental: strong first stage for IV, clean RD, credible parallel trends. Power calculations. Clustered standard errors at appropriate level.
-**Typical concerns:** "Does this generalize beyond this specific context?" "What about attrition?" "Cost-effectiveness?" "Long-run effects?"
-**Referee pool:** CREDIBILITY (high), POLICY (high), MEASUREMENT (high), SKEPTIC (medium), STRUCTURAL (low), THEORY (low)
+### BMC Pulmonary Medicine
+**Focus:** Broad open-access pulmonary journal publishing scientifically valid work on prevention, diagnosis, management, and outcomes across lung disease.
+**Bar:** Sound pulmonary study with clear methods and reporting; novelty threshold is moderate, validity threshold is not.
+**Domain referee adjusts:** Suits real-world cohorts, observational studies, and clinically practical questions with pulmonary or public-health relevance.
+**Methods referee adjusts:** Emphasizes ethical compliance, transparent reporting, reproducibility, appropriate adjustment, and statistical correctness over splashiness.
+**Typical concerns:** "Is the study scientifically sound?" "Are definitions and analyses reproducible?" "Do the conclusions outrun the data?"
+**Referee pool:** CLINICAL (medium), METHODOLOGICAL (high), EVIDENCE (medium), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (low)
 
----
+**Interventional, Oncology, and Spanish-Language Journals**
 
-**Short Format**
+### Journal of Bronchology and Interventional Pulmonology (JOBIP)
+**Focus:** Interventional pulmonology, bronchoscopy, pleural procedures, central airway disease, and procedure-driven innovation for pulmonary specialists.
+**Bar:** A specialized clinical paper with clear procedural relevance, solid technique description, and credible safety / outcome reporting.
+**Domain referee adjusts:** Wants practical value for bronchoscopists: patient selection, technical nuance, complication management, learning curve, and whether the paper changes how a procedure is done.
+**Methods referee adjusts:** Expects clear endpoint definitions, standardized complication reporting, appropriate comparators when possible, and follow-up long enough to assess durability and safety.
+**Typical concerns:** "Is this more than a case series?" "Are the complications fully reported?" "Can other centers reproduce this technique?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (medium), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (medium), SKEPTIC (low)
 
-### AER: Insights
-**Focus:** Same breadth as AER but shorter format — important results that can be communicated concisely
-**Bar:** AER-quality insight in a shorter paper. Must be self-contained and punchy.
-**Domain referee adjusts:** Brevity is a feature, not a limitation. One clean result is enough. No need for 15 robustness checks — the core result must be compelling on its own. Well-suited for striking findings or clever identification.
-**Methods referee adjusts:** Core identification must be clean. Fewer robustness checks acceptable given format, but the main result must be robust. Transparency and visual evidence valued.
-**Typical concerns:** "Can this be communicated in 10 pages?" "Is the single result compelling enough?" "Does this need a longer format to be convincing?"
-**Referee pool:** CREDIBILITY (high), POLICY (medium), SKEPTIC (medium), STRUCTURAL (low), THEORY (low), MEASUREMENT (low)
+### Journal of Thoracic Oncology (JTO)
+**Focus:** Multidisciplinary thoracic oncology, including prevention, screening, diagnosis, staging, systemic therapy, radiation, surgery, biomarkers, and translational cancer research.
+**Bar:** Very high. The paper should be practice-changing, field-advancing, or a major translational contribution with strong clinical consequences.
+**Domain referee adjusts:** Wants clear relevance to thoracic malignancies, clinically meaningful endpoints, molecular or therapeutic context, and a contribution that matters to oncologists across disciplines.
+**Methods referee adjusts:** Expects CONSORT / STROBE / REMARK-level reporting, robust survival methods, careful subgroup handling, external validation for biomarkers/models, and strong control of bias.
+**Typical concerns:** "Will this change management?" "Is the biomarker or subgroup claim truly validated?" "Are the survival analyses and multiplicity handled correctly?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (high), EVIDENCE (high), ETHICAL (medium), STATISTICAL (high), TRANSLATIONAL (high), SKEPTIC (medium)
 
-### Economics Letters
-**Focus:** Short papers across all fields of economics — theoretical and empirical
-**Bar:** One clear result that can be communicated in 5-8 pages. Speed of publication valued. No room for extensive robustness or literature review — the result must stand on its own.
-**Domain referee adjusts:** Contribution must be stated in the first paragraph. No space for extensive institutional background. One key finding, cleanly presented. Incremental extensions of existing work acceptable if the result is sharp.
-**Methods referee adjusts:** Identification must be clean but extensive robustness not expected given format. One well-executed specification is enough. Standard errors must be correct. No space for 10-table robustness sections.
-**Typical concerns:** "Can this be said in 5 pages?" "Is the single result robust?" "Is this novel enough for a standalone paper?"
-**Referee pool:** CREDIBILITY (high), SKEPTIC (medium), THEORY (medium), MEASUREMENT (low), STRUCTURAL (low), POLICY (low)
+### Radiology
+**Focus:** High-impact diagnostic imaging, quantitative imaging, image-guided intervention, imaging technology, and clinically relevant radiologic science across subspecialties.
+**Bar:** Extremely high. Novelty alone is not enough; the paper needs broad relevance, technical rigor, and convincing clinical or workflow impact.
+**Domain referee adjusts:** Wants a clear imaging question, reproducible protocol, real incremental value over current practice, and generalizability across readers, scanners, and institutions.
+**Methods referee adjusts:** Expects strong reference standards, reader-study rigor when relevant, reproducibility metrics, external validation, and careful handling of model performance and spectrum bias.
+**Typical concerns:** "Is this broadly relevant or just technically clever?" "Does it generalize beyond one center or scanner?" "What is the incremental value over standard imaging practice?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (high), EVIDENCE (medium), ETHICAL (low), STATISTICAL (high), TRANSLATIONAL (medium), SKEPTIC (high)
 
----
+### Journal of Vascular and Interventional Radiology (JVIR)
+**Focus:** Minimally invasive image-guided vascular and nonvascular procedures, devices, peri-procedural care, quality improvement, and real-world interventional outcomes.
+**Bar:** Strong procedural paper with clear clinical importance, standardized outcome reporting, and convincing safety data; multicenter and comparative studies are especially favored.
+**Domain referee adjusts:** Wants clear indications, technical success, complication grading, reintervention burden, and whether the study changes interventional practice.
+**Methods referee adjusts:** Expects SIR-style reporting standards, consistent endpoint definitions, appropriate time-to-event or patency analyses, and serious attention to selection bias and operator effects.
+**Typical concerns:** "Is there a meaningful comparator?" "Are durability and complications reported transparently?" "Is the result generalizable beyond expert operators?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (high), EVIDENCE (medium), ETHICAL (medium), STATISTICAL (high), TRANSLATIONAL (medium), SKEPTIC (medium)
 
-**Econometrics**
+### Archivos de Bronconeumología
+**Focus:** Broad respiratory medicine and thoracic surgery for an international and Spanish-speaking audience, including original research, reviews, guidelines, and society-relevant clinical work.
+**Bar:** High for a specialty respiratory journal. The paper should be clinically meaningful, well executed, and relevant beyond a single local unit.
+**Domain referee adjusts:** Wants strong respiratory relevance, alignment with current pneumology practice, and a clear takeaway for clinicians dealing with common or important thoracic disease.
+**Methods referee adjusts:** Expects solid observational or clinical methods, guideline-compliant reporting, sensible adjustment strategy, and enough robustness to support applied claims.
+**Typical concerns:** "Is the contribution novel beyond a local series?" "Does this matter to the wider respiratory community?" "Are the methods strong enough for the claim?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (high), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (low)
 
-### Journal of Econometrics
-**Focus:** Econometric theory and methods — estimation, inference, testing, computational methods, machine learning for causal inference
-**Bar:** Methodological contribution with formal results. Empirical applications welcome but the method must be the contribution, not the application.
-**Domain referee adjusts:** Theoretical novelty is paramount. Must clearly state what existing methods cannot do that yours can. Monte Carlo simulations expected to demonstrate finite-sample properties. Empirical illustration should showcase the method, not the substantive finding.
-**Methods referee adjusts:** Formal proofs required for key results (consistency, asymptotic normality, convergence rates). Regularity conditions must be stated and discussed. Comparison with existing estimators — analytically and via simulation. Power analysis. Computational feasibility discussed. Code availability expected.
-**Typical concerns:** "What are the asymptotic properties?" "How does this compare to [existing method]?" "What happens in finite samples?" "Are the regularity conditions plausible in practice?"
-**Referee pool:** THEORY (high), SKEPTIC (high), MEASUREMENT (high), STRUCTURAL (medium), CREDIBILITY (low), POLICY (low)
+### Open Respiratory Archives
+**Focus:** Open-access respiratory medicine from the SEPAR orbit, including clinical research, reviews, practice-oriented studies, and broader specialty communication.
+**Bar:** A solid respiratory paper with a clear message and practical value; the standard is real peer-reviewed rigor, but not necessarily field-defining novelty.
+**Domain referee adjusts:** Wants usefulness for respiratory clinicians, a clean clinical message, and fit with everyday pulmonary practice, education, or real-world care.
+**Methods referee adjusts:** Expects transparent design, complete reporting, appropriate statistics for the scale of the study, and claims that stay proportional to the evidence.
+**Typical concerns:** "Is the message clear enough?" "Are the conclusions too strong for the design?" "Does the paper add enough beyond routine local experience?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (medium), ETHICAL (low), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (low)
 
-### Review of Economics and Statistics (RESTAT)
-**Focus:** Empirical economics — all fields, emphasis on careful measurement and methods
-**Bar:** Technically excellent empirical work. Values careful econometrics and measurement.
-**Domain referee adjusts:** Measurement quality is paramount. Novel data or measurement approaches valued. Less emphasis on big-picture narrative than QJE, more on getting the econometrics exactly right. Replication studies welcome.
-**Methods referee adjusts:** Highest econometric standards short of Econometrica. Every assumption must be tested or bounded. Sensitivity analysis expected. Careful treatment of standard errors. Pre-registration or pre-analysis plans viewed favorably.
-**Typical concerns:** "Is the measurement precise enough?" "Have you tested every assumption?" "What about measurement error in [variable]?"
-**Referee pool:** MEASUREMENT (high), SKEPTIC (high), CREDIBILITY (high), THEORY (medium), STRUCTURAL (low), POLICY (low)
+### Revista de Patología Respiratoria
+**Focus:** Spanish-language respiratory medicine with emphasis on clinical updates, reviews, case reports, small series, and educational material for practicing pulmonologists.
+**Bar:** More practice-oriented than high-impact specialty journals; clarity, relevance, and teaching value can matter as much as novelty.
+**Domain referee adjusts:** Wants a concrete clinical lesson, strong imaging or bronchoscopic documentation when relevant, and obvious value for respiratory clinicians in routine care.
+**Methods referee adjusts:** Expects rigor proportional to the format: case reports need clear novelty and consent context; series need transparent selection, outcomes, and limitations.
+**Typical concerns:** "What is genuinely new here?" "Is the teaching point strong enough?" "Is this adequately documented rather than anecdotal?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (low), EVIDENCE (low), ETHICAL (medium), STATISTICAL (low), TRANSLATIONAL (low), SKEPTIC (low)
 
----
+### Medicina Clínica
+**Focus:** Broad clinical medicine and internal medicine for a Spanish and hospital-based readership, including original research, reviews, consensus documents, and specialty work with general clinical relevance.
+**Bar:** A good clinically relevant paper with implications beyond a narrow subspecialty niche; broad medical usefulness matters more than frontier novelty.
+**Domain referee adjusts:** Wants a message that internists and hospital clinicians can use, not just subspecialists; practical implications, comorbidity context, and external clinical relevance are important.
+**Methods referee adjusts:** Expects competent observational or clinical study design, reporting-guideline compliance, sensible confounding control, and appropriately cautious inference.
+**Typical concerns:** "Why should a broad clinical readership care?" "Is the sample or setting too narrow?" "Are the conclusions stronger than the evidence permits?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (medium), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (medium)
 
-**Health Economics**
-
-### Health Economics
-**Focus:** Health economics with emphasis on empirical applications — health care demand, insurance, provider behavior, public health interventions, pharmaceutical markets
-**Bar:** Sound empirical health economics. Slightly below JHE bar but same methodological expectations. Good outlet for well-executed applied work in health.
-**Domain referee adjusts:** Same institutional knowledge as JHE expected — insurance markets, provider incentives, moral hazard, adverse selection. Health policy relevance valued. Understanding of health care data (claims, EHR, surveys). Behavioral health economics increasingly accepted.
-**Methods referee adjusts:** Clean identification expected. Health-specific threats addressed (selection into insurance, Ashenfelter dip, moral hazard confounding). Both OLS and GLM for cost outcomes. Subgroup analysis by insurance type, age, income expected.
-**Typical concerns:** "Have you addressed selection?" "What about moral hazard?" "Does this replicate across payer types?" "Policy implications?"
-**Referee pool:** CREDIBILITY (high), MEASUREMENT (high), POLICY (medium), STRUCTURAL (medium), THEORY (low), SKEPTIC (low)
-
----
-
-**Urban and Spatial Economics**
-
-### Journal of Urban Economics (JUE)
-**Focus:** Urban and regional economics — housing, transportation, local public goods, agglomeration, spatial equilibrium, neighborhood effects
-**Bar:** Clean empirical work on urban questions with credible identification. Understanding of spatial economics and local policy variation.
-**Domain referee adjusts:** Spatial equilibrium thinking expected — people and firms move, so partial equilibrium results need justification. Housing markets, land use regulation, sorting, commuting. Knowledge of Census/ACS geography, LODES, HMDA. Hedonic models and spatial instruments common. General equilibrium concerns about migration and capitalization.
-**Methods referee adjusts:** Spatial identification challenges: selection into neighborhoods, Tiebout sorting, MAUP. Boundary discontinuity designs valued. DiD around local policy changes. IV with Bartik-style shift-share instruments scrutinized. Spatial autocorrelation in standard errors. Conley standard errors when appropriate.
-**Typical concerns:** "What about sorting?" "Is this capitalized into housing prices?" "General equilibrium effects?" "Have you addressed spatial autocorrelation?"
-**Referee pool:** STRUCTURAL (high), CREDIBILITY (high), MEASUREMENT (medium), POLICY (medium), THEORY (medium), SKEPTIC (low)
-
-### Journal of Economic Geography
-**Focus:** Economic geography — agglomeration, trade costs, spatial inequality, regional development, clusters, migration, urban systems
-**Bar:** Contribution to understanding the spatial dimension of economic activity. Both theoretical and empirical work accepted. Interdisciplinary with geography and regional science.
-**Domain referee adjusts:** Spatial thinking required — distance, borders, market access, gravity models. New Economic Geography tradition (Krugman, Fujita, Venables). Understanding of agglomeration economies, congestion costs, and spatial sorting. European and international evidence valued alongside US.
-**Methods referee adjusts:** Spatial econometrics expected when appropriate (spatial lag, spatial error models). Gravity equation estimation (PPML, multilateral resistance). Handling of spatial autocorrelation. Market access instruments. Shift-share designs for local labor market shocks.
-**Typical concerns:** "What about spatial sorting?" "Have you accounted for market access?" "Is this agglomeration or selection?" "Spatial autocorrelation in errors?"
-**Referee pool:** STRUCTURAL (high), MEASUREMENT (high), THEORY (medium), CREDIBILITY (medium), POLICY (medium), SKEPTIC (low)
-
----
-
-## Finance
-
-### The Journal of Finance (JF)
-**Focus:** All areas of finance — asset pricing, corporate finance, market microstructure, behavioral finance, household finance
-**Bar:** Must advance our understanding of financial markets or financial decision-making. Big question, clean execution. The finance equivalent of AER in breadth and ambition.
-**Domain referee adjusts:** Contribution must matter to finance broadly, not just one niche. Theoretical motivation expected — even empirical papers need a clear economic framework. Equilibrium implications considered. Risk adjustment must be thorough for asset pricing papers.
-**Methods referee adjusts:** For corporate/household finance: clean causal identification expected (DiD, IV, RDD). For asset pricing: factor model tests, Fama-MacBeth, portfolio sorts with proper standard errors. Endogeneity concerns taken very seriously. Instrument validity scrutinized.
-**Typical concerns:** "What's the economic mechanism?" "Is this priced risk or mispricing?" "Have you addressed endogeneity?" "Does this survive controlling for known factors?"
-**Referee pool:** THEORY (high), STRUCTURAL (high), CREDIBILITY (medium), SKEPTIC (medium), MEASUREMENT (low), POLICY (low)
-
-### Journal of Financial Economics (JFE)
-**Focus:** Corporate finance, asset pricing, banking, governance, financial intermediation
-**Bar:** Rigorous empirical or theoretical work. Strong emphasis on economic significance, not just statistical significance. Slightly more empirical focus than JF.
-**Domain referee adjusts:** Corporate finance and governance papers especially valued. Institutional knowledge of financial markets expected. Firm-level analysis with careful treatment of endogeneity. Understanding of agency problems, contracting, and incentive alignment.
-**Methods referee adjusts:** Natural experiments and quasi-experimental designs valued in corporate finance. Event studies must follow modern best practices (short window, proper benchmarking). Diff-in-diff around regulatory changes common. IV exclusion restrictions scrutinized heavily.
-**Typical concerns:** "Is this economically significant or just statistically significant?" "What about reverse causality?" "Have you controlled for firm fixed effects?" "Is your instrument truly exogenous?"
-**Referee pool:** CREDIBILITY (high), STRUCTURAL (high), THEORY (medium), SKEPTIC (medium), MEASUREMENT (low), POLICY (low)
-
-### The Review of Financial Studies (RFS)
-**Focus:** Theoretical and empirical finance — broad coverage, values technical sophistication
-**Bar:** Technically excellent finance research. Tolerates longer papers with thorough analysis. Values completeness and rigor over narrative.
-**Domain referee adjusts:** Thoroughness valued — complete robustness section expected. Both theoretical and empirical contributions accepted. International finance and emerging markets welcome. Novel datasets or measurement approaches valued.
-**Methods referee adjusts:** Full battery of robustness checks expected. Multiple identification strategies appreciated. Structural estimation alongside reduced-form welcome. Careful inference — clustered standard errors, bootstrap, wild cluster bootstrap when appropriate.
-**Typical concerns:** "Have you checked robustness to alternative specifications?" "What about clustering at the firm vs. industry level?" "Can you provide a structural interpretation?"
-**Referee pool:** SKEPTIC (high), MEASUREMENT (high), STRUCTURAL (medium), THEORY (medium), CREDIBILITY (low), POLICY (low)
-
-### Journal of Financial and Quantitative Analysis (JFQA)
-**Focus:** Empirical and theoretical finance with quantitative rigor — corporate finance, investments, banking, capital markets
-**Bar:** Sound empirical finance with clear contribution. Below top-3 finance bar but same rigor expectations. Good outlet for careful empirical work.
-**Domain referee adjusts:** Solid contribution to the subfield sufficient — doesn't need to reshape the whole field. International and comparative studies welcome. Clear economic intuition expected.
-**Methods referee adjusts:** Standard modern finance econometrics expected. Fixed effects, clustering, instrumental variables. Event study methodology must be current. Robustness to alternative specifications.
-**Typical concerns:** "Is this incremental relative to existing work?" "Have you considered international evidence?" "Is the sample period long enough?"
-**Referee pool:** CREDIBILITY (high), MEASUREMENT (medium), SKEPTIC (medium), THEORY (medium), STRUCTURAL (low), POLICY (low)
+### Revista Clínica Española
+**Focus:** Internal medicine, hospital medicine, multimorbidity, diagnostic reasoning, and real-world clinical care for the SEMI community and a broad Spanish-speaking medical audience.
+**Bar:** A practical, well-executed paper that informs internists’ decisions; registry studies, pragmatic cohorts, and clinically grounded reviews fit well if the message is clear.
+**Domain referee adjusts:** Wants relevance to internal medicine workflow, multimorbidity, diagnostic complexity, inpatient-outpatient coordination, and problems seen in general clinical practice.
+**Methods referee adjusts:** Expects solid real-world clinical methods, transparent definitions, reasonable adjustment for case-mix, and statistics that support bedside-facing conclusions without overreach.
+**Typical concerns:** "Is this useful to internists rather than a single specialty service?" "Have you handled confounding and heterogeneity adequately?" "Does the paper change practice or only describe experience?"
+**Referee pool:** CLINICAL (high), METHODOLOGICAL (medium), EVIDENCE (medium), ETHICAL (medium), STATISTICAL (medium), TRANSLATIONAL (low), SKEPTIC (low)
 
 ---
 
-## Accounting
+## Custom Journal Template
 
-### Journal of Accounting Research (JAR)
-**Focus:** Financial reporting, auditing, disclosure, capital markets — the most empirically rigorous accounting journal
-**Bar:** Archival empirical work with strong identification, or analytical models with clear predictions. JAR is the most "economics-adjacent" accounting journal.
-**Domain referee adjusts:** Must understand GAAP/IFRS reporting incentives. Earnings management, accruals quality, and disclosure theory. Capital markets consequences of accounting choices. Audit quality and auditor incentives.
-**Methods referee adjusts:** Identification strategy must be clean — JAR holds to economics standards. DiD around accounting standard changes common. Selection models for auditor choice. Heckman corrections when appropriate. Pre-trends and parallel trends for policy changes.
-**Typical concerns:** "Is this an accounting paper or a finance paper?" "Have you controlled for accruals quality?" "What about the selection into treatment?" "Does this survive the Hribar-Collins adjustment?"
-**Referee pool:** CREDIBILITY (high), MEASUREMENT (high), STRUCTURAL (medium), THEORY (medium), SKEPTIC (low), POLICY (low)
-
-### Journal of Accounting and Economics (JAE)
-**Focus:** Economic analysis of accounting — contracting, regulation, capital markets, disclosure
-**Bar:** Must have a clear economic framework. JAE values theory-motivated empirical work. The most economics-flavored accounting journal.
-**Domain referee adjusts:** Agency theory and contracting framework expected. Understanding of SEC regulation, SOX, Dodd-Frank implications. CEO compensation and governance. Tax avoidance and tax planning. Positive accounting theory tradition.
-**Methods referee adjusts:** Theory-driven hypotheses expected — not data-mining. Structural approaches valued alongside reduced-form. Large-sample archival methods with careful endogeneity treatment. Instrument validity in governance studies especially scrutinized.
-**Typical concerns:** "What's the economic theory behind this prediction?" "Is this a contracting or valuation story?" "Have you addressed the Leamer critique?" "What about omitted variable bias?"
-**Referee pool:** THEORY (high), STRUCTURAL (high), CREDIBILITY (medium), MEASUREMENT (medium), SKEPTIC (low), POLICY (low)
-
-### The Accounting Review (TAR)
-**Focus:** Broadest accounting journal — financial, managerial, auditing, tax, systems
-**Bar:** Significant contribution to accounting knowledge. More methodologically diverse than JAR/JAE — accepts experiments, surveys, and analytical work alongside archival.
-**Domain referee adjusts:** Broader scope than JAR/JAE — managerial accounting, cost accounting, and accounting education also considered. Practical implications for accounting profession valued. Standard-setting relevance appreciated.
-**Methods referee adjusts:** Archival papers: similar identification standards to JAR. Experiments: proper randomization, demand effects, external validity. Surveys: response rates, non-response bias. Tax papers: knowledge of IRC provisions expected.
-**Typical concerns:** "What are the implications for standard-setters?" "Does this generalize beyond your sample?" "Have you addressed self-selection?" "What about the tax implications?"
-**Referee pool:** CREDIBILITY (medium), MEASUREMENT (high), POLICY (medium), STRUCTURAL (medium), THEORY (medium), SKEPTIC (low)
-
-### Contemporary Accounting Research (CAR)
-**Focus:** All areas of accounting — international perspective, methodological innovation
-**Bar:** Solid accounting research with clear contribution. More international scope than US-centric TAR/JAR. Good outlet for methodological contributions to accounting.
-**Domain referee adjusts:** International accounting standards (IFRS adoption, cross-country comparisons) valued. Canadian and international evidence welcome alongside US. Innovative measurement approaches.
-**Methods referee adjusts:** Same rigor as TAR for archival work. Novel econometric approaches to accounting problems valued. Textual analysis and machine learning applications increasingly accepted. Careful treatment of measurement error in accounting variables.
-**Typical concerns:** "Does this apply outside the US?" "How sensitive are results to the accrual measure used?" "Have you considered IFRS vs. GAAP differences?"
-**Referee pool:** MEASUREMENT (high), CREDIBILITY (high), SKEPTIC (medium), POLICY (low), STRUCTURAL (low), THEORY (low)
-
----
-
-## Marketing
-
-### Journal of Marketing Research (JMR)
-**Focus:** Marketing research methods and substantive findings — consumer behavior, pricing, advertising, digital marketing
-**Bar:** Methodological rigor with marketing substance. Values causal identification and experimental design. The most empirically rigorous marketing journal.
-**Domain referee adjusts:** Must speak to marketing managers and academics. Consumer welfare and firm implications. Understanding of marketing mix (price, promotion, distribution, product). Digital marketing and platform economics increasingly important.
-**Methods referee adjusts:** Experiments (lab and field) held to high standards — randomization checks, demand effects, external validity. Structural demand models (BLP-style) valued. Causal inference from observational data must be convincing. Machine learning for prediction vs. causal inference distinction expected.
-**Typical concerns:** "What's the managerial implication?" "Can you run a field experiment to validate?" "Have you addressed endogeneity of price/advertising?" "What about demand-side vs. supply-side effects?"
-**Referee pool:** CREDIBILITY (high), STRUCTURAL (high), MEASUREMENT (medium), POLICY (medium), THEORY (low), SKEPTIC (low)
-
-### Marketing Science
-**Focus:** Quantitative marketing — structural models, field experiments, econometric analysis of marketing phenomena
-**Bar:** Technical sophistication expected. The most methods-intensive marketing journal. Structural estimation and formal models highly valued.
-**Domain referee adjusts:** Quantitative marketing models — demand estimation, pricing optimization, advertising response, customer lifetime value. Platform economics and two-sided markets. Competitive strategy implications. Welfare analysis of marketing practices.
-**Methods referee adjusts:** Structural models expected for many topics (demand estimation, dynamic pricing, entry/exit). BLP, nested logit, mixed logit standard vocabulary. Field experiments and A/B testing with proper inference. Bayesian methods accepted. Counterfactual simulations expected alongside reduced-form.
-**Typical concerns:** "Can you estimate a structural model?" "What's the counterfactual policy simulation?" "Have you estimated price elasticities?" "What about consumer heterogeneity?"
-**Referee pool:** STRUCTURAL (high), THEORY (high), MEASUREMENT (medium), CREDIBILITY (medium), SKEPTIC (low), POLICY (low)
-
-### Journal of Consumer Research (JCR)
-**Focus:** Consumer behavior — psychology of consumption, decision-making, identity, culture
-**Bar:** Theoretical contribution to understanding consumer behavior. Values conceptual novelty and experimental rigor. More behavioral/psychological than JMR or Marketing Science.
-**Domain referee adjusts:** Psychological theory of consumer behavior expected. Process evidence (mediation, moderation) valued. Identity, motivation, judgment and decision-making frameworks. Cultural and sociological perspectives also accepted. Less emphasis on managerial implications than JMR.
-**Methods referee adjusts:** Experimental designs dominant — proper controls, manipulation checks, attention checks. Multiple studies showing robustness and boundary conditions expected. Effect sizes and confidence intervals. Replication of core finding across studies. Pre-registration viewed favorably.
-**Typical concerns:** "What's the underlying psychological process?" "Can you show mediation?" "What are the boundary conditions?" "Have you replicated across different contexts?"
-**Referee pool:** THEORY (high), MEASUREMENT (high), SKEPTIC (medium), CREDIBILITY (medium), STRUCTURAL (low), POLICY (low)
-
----
-
-## Management and Strategy
-
-### Management Science
-**Focus:** Interdisciplinary — operations, finance, marketing, strategy, economics, behavioral science, organizations, information systems
-**Bar:** Technically rigorous work that spans business disciplines. Values formal models AND clean empirical work. Extremely broad scope — the most interdisciplinary top business journal.
-**Domain referee adjusts:** Paper must fit one of the departments (operations, finance, marketing, etc.) but speak to a broader audience. Practical implications valued. Model-driven empirical work appreciated. Accepts papers that wouldn't fit neatly into a single field journal.
-**Methods referee adjusts:** Standards match the relevant field (finance papers judged by finance methods standards, etc.). Structural estimation, causal inference, and field experiments all welcome. Simulation and computational methods accepted. Optimization and analytical models alongside empirical work.
-**Typical concerns:** "Which department does this fit?" "Is this a Management Science paper or a field journal paper?" "What's the practical implication?" "Does the model match the empirics?"
-**Referee pool:** STRUCTURAL (high), CREDIBILITY (high), THEORY (medium), MEASUREMENT (medium), POLICY (low), SKEPTIC (low)
-
-### Strategic Management Journal (SMJ)
-**Focus:** Strategy — competitive advantage, diversification, alliances, innovation, governance, entrepreneurship
-**Bar:** Significant contribution to strategic management theory and practice. Empirical papers need strong identification. Theory papers need testable implications.
-**Domain referee adjusts:** Resource-based view, dynamic capabilities, competitive dynamics, industry analysis. Understanding of firm heterogeneity and sustained competitive advantage. Alliance formation, M&A, and diversification. Innovation strategy and technology competition.
-**Methods referee adjusts:** Endogeneity is the central concern — firm strategy is endogenous by nature. Instrumental variables, DiD around exogenous shocks, matching methods. Panel data with firm fixed effects expected. Selection models for entry/exit decisions. Heckman corrections common.
-**Typical concerns:** "Is strategy endogenous here?" "What about unobserved firm heterogeneity?" "Can you identify the causal effect of this strategic choice?" "What's the theory of competitive advantage?"
-**Referee pool:** THEORY (high), CREDIBILITY (high), STRUCTURAL (medium), SKEPTIC (medium), MEASUREMENT (low), POLICY (low)
-
-### Administrative Science Quarterly (ASQ)
-**Focus:** Organization theory and behavior — institutions, networks, culture, power, status, organizational design
-**Bar:** Deep theoretical contribution with rigorous evidence. ASQ values papers that change how you think about organizations. Accepts qualitative, quantitative, and mixed methods.
-**Domain referee adjusts:** Institutional theory, organizational ecology, network theory, social categorization. Status and legitimacy in markets. Organizational identity and culture. Power and politics in organizations. Historical and comparative analysis valued.
-**Methods referee adjusts:** Quantitative papers: panel data, fixed effects, causal identification expected. Qualitative papers: systematic data collection, coding protocols, theoretical sampling. Mixed methods: integration of qualitative and quantitative evidence. Ethnographic work accepted if theoretically motivated.
-**Typical concerns:** "What's the theoretical mechanism?" "How does this advance organization theory?" "Is this generalizable beyond your empirical context?" "Have you considered alternative theoretical explanations?"
-**Referee pool:** THEORY (high), MEASUREMENT (high), STRUCTURAL (medium), CREDIBILITY (medium), POLICY (low), SKEPTIC (low)
-
----
-
-## Add Your Own Journal
-
-Copy this template and add it above this section:
-
-```markdown
-### [Journal Name] ([Abbreviation])
-**Focus:** [fields and topics covered]
-**Bar:** [what it takes to publish here]
-**Domain referee adjusts:** [what matters most to domain reviewers at this journal]
-**Methods referee adjusts:** [rigor expectations, preferred methods, required checks]
-**Typical concerns:** [common referee questions at this journal]
-**Referee pool:** [disposition] (high/medium/low) for each: STRUCTURAL, CREDIBILITY, MEASUREMENT, POLICY, THEORY, SKEPTIC
-```
+### [Journal Name]
+**Focus:** [Scope and audience]
+**Bar:** [What level of contribution is needed]
+**Domain referee adjusts:** [What the content referee emphasizes]
+**Methods referee adjusts:** [What the methods referee emphasizes]
+**Typical concerns:** [Common reviewer questions]
+**Referee pool:** CLINICAL (high/medium/low), METHODOLOGICAL (high/medium/low), EVIDENCE (high/medium/low), ETHICAL (high/medium/low), STATISTICAL (high/medium/low), TRANSLATIONAL (high/medium/low), SKEPTIC (high/medium/low)

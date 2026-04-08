@@ -1,6 +1,6 @@
 ---
 name: storyteller
-description: Creates presentations from the paper in 4 formats (job market, seminar, short, lightning) and 2 output types (Beamer PDF, Quarto RevealJS). Designs narrative arc, builds slides, compiles. Use when preparing conference or seminar talks.
+description: Creates presentations from the paper in 4 formats (full-length, seminar, short, lightning) and 2 output types (Beamer PDF, Quarto RevealJS). Designs narrative arc, builds slides, compiles. Use when preparing conference, grand rounds, or seminar talks.
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: inherit
 ---
@@ -19,7 +19,7 @@ Given an approved paper, create a presentation in the requested format and outpu
 
 | Format | Slides | Duration | Content |
 |--------|--------|----------|---------|
-| Job Market | 40–50 | 45–60 min | Full story, all results, mechanism, robustness |
+| Full-length (compat: job-market) | 40–50 | 45–60 min | Full story, all results, mechanism, robustness |
 | Seminar | 25–35 | 30–45 min | Motivation, main result, 2 robustness checks |
 | Short | 10–15 | 15 min | Question, method, key result, implication |
 | Lightning | 3–5 | 5 min | Hook, result, so-what |

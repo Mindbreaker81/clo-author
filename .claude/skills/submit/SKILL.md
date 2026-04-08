@@ -1,73 +1,52 @@
 ---
 name: submit
-description: Submission pipeline — journal targeting, replication package, audit, and final gate. Replaces /submit, /target-journal, /audit-replication, /data-deposit.
+description: Submission pipeline — journal targeting, submission package, audit, and final gate for medical manuscripts.
 argument-hint: "[mode: target | package | audit | final] [journal name (optional)]"
 allowed-tools: Read,Grep,Glob,Write,Bash,Task
 ---
 
 # Submit
 
-Submission pipeline with four modes covering journal selection through final verification.
-
-**Input:** `$ARGUMENTS` — mode keyword, optionally followed by journal name.
-
----
+Submission pipeline with four modes covering journal targeting through final verification.
 
 ## Modes
 
-### `/submit target` — Journal Targeting
-Get ranked journal recommendations.
+### `/submit target`
+Get ranked journal recommendations based on fit, evidence level, design, audience, and bar.
 
-**Agent:** Orchestrator (journal selection function)
-
-Considers: contribution fit, methodology fit, audience fit, recent publications, desk rejection risk. Consults .claude/references/domain-profile.md for journal tiers.
-
-Output: Ranked list of 3 target journals with rationale.
-Save to `quality_reports/journal_recommendations_[date].md`
-
-### `/submit package` — Build Replication Package
-Assemble AEA-compliant replication package.
-
-**Agents:** Coder + Verifier
+### `/submit package`
+Assemble a journal-ready package.
 
 Produces:
-- Master script that runs all analyses end-to-end
-- README with data sources, computational requirements, instructions
-- Data documentation and codebook
-- Organized file structure per AEA standards
-Save to `paper/replication/`
+- manuscript inventory
+- figure / table inventory
+- reporting checklist draft
+- disclosure / funding / data-sharing statement draft
+- submission notes or cover-letter draft
 
-### `/submit audit` — Audit Replication Package
-Verify replication package completeness.
-
-**Agent:** Verifier (submission mode — 10 checks)
+### `/submit audit`
+Verify submission package completeness.
 
 Checks:
-1. Master script exists and runs
-2. All tables reproduce
-3. All figures reproduce
-4. README complete
-5. Data documentation present
-6. Numbered script order
-7. Dependencies listed
-8. Runtime documented
-9. Output paths match paper references
-10. No hardcoded paths
+1. manuscript assets organized
+2. reporting checklist present
+3. ethics / consent / registration statements present where needed
+4. disclosures and funding documented
+5. data provenance or sharing statement included
+6. dependencies listed
+7. tables / figures trace back to scripts
+8. no obvious hardcoded sensitive paths
 
-### `/submit final [journal]` — Final Submission Gate
-Full verification + score enforcement + submission checklist.
-
-Workflow:
-1. Run comprehensive review if not done recently
-2. Run replication audit
-3. Check score gate: aggregate >= 95, all components >= 80
-4. If PASS: generate cover letter draft + submission checklist
-5. If FAIL: list blocking issues and stop
-
----
+### `/submit final [journal]`
+Run final verification and the score gate:
+1. run comprehensive review if needed
+2. run submission audit
+3. check score gate: aggregate >= 95 and all components >= 80
+4. if pass: generate final checklist and submission notes
+5. if fail: list blockers and stop
 
 ## Principles
-- **Score >= 95 + all components >= 80. No exceptions.**
-- **Don't skip verification.** Even if reports exist, check they're recent.
-- **If it fails, stop.** Don't generate materials for a failing paper.
-- **Cover letter is a draft.** User must review before sending.
+
+- Do not prepare a submission package for a failing paper
+- Submission readiness includes reporting and ethics, not just analysis correctness
+- Journal choice should match the contribution and design honestly

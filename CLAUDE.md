@@ -1,13 +1,9 @@
-# CLAUDE.MD -- Empirical Social Science Research with Claude Code
+<coding_guidelines>
+# CLAUDE.MD -- Medical Research with Claude Code
 
-<!-- HOW TO USE: Replace [BRACKETED PLACEHOLDERS] with your project info.
-     Customize Beamer environments for your talk preamble.
-     Keep this file under ~150 lines — Claude loads it every session.
-     See the guide at https://hugosantanna.github.io/clo-author/ for full documentation. -->
-
-**Project:** [YOUR PROJECT NAME]
-**Institution:** [YOUR INSTITUTION]
-**Field:** [YOUR FIELD — e.g., Economics, Finance, Marketing, Management, Accounting]
+**Project:** Pulmonary Outcomes Research Project
+**Institution:** Academic Medical Center / University Hospital
+**Field:** Pulmonary Medicine / Interventional Pulmonology
 **Branch:** main
 
 ---
@@ -15,19 +11,20 @@
 ## Core Principles
 
 - **Plan first** -- enter plan mode before non-trivial tasks; save plans to `quality_reports/plans/`
-- **Verify after** -- compile and confirm output at the end of every task
-- **Single source of truth** -- Paper `main.tex` is authoritative; talks and supplements derive from it
+- **Verify after** -- compile or validate outputs at the end of every task
+- **Single source of truth** -- `paper/main.tex` is authoritative; talks and supplements derive from it
 - **Quality gates** -- weighted aggregate score; nothing ships below 80/100; see `quality.md`
 - **Worker-critic pairs** -- every creator has a paired critic; critics never edit files
-- **Auto-memory** -- corrections and preferences are saved automatically via Claude Code's built-in memory system
+- **Reporting first** -- match the study design to the right reporting guideline (CONSORT, STROBE, PRISMA, STARD)
+- **Clinical compliance** -- ethics approval, consent, registration, safety reporting, and conflicts disclosure are never optional when applicable
 
 ---
 
 ## Getting Started
 
-1. Fill in the `[BRACKETED PLACEHOLDERS]` in this file
-2. Run `/discover interview [topic]` to build your research specification
-3. Or run `/new-project [topic]` for the full orchestrated pipeline
+1. Replace the generic project metadata above if you want project-specific values
+2. Run `/discover interview [clinical topic]` to build the research specification
+3. Or run `/new-project [clinical topic]` for the full orchestrated pipeline
 
 ---
 
@@ -35,7 +32,7 @@
 
 ```
 [YOUR-PROJECT]/
-├── CLAUDE.MD                    # This file
+├── CLAUDE.md                    # This file
 ├── .claude/                     # Rules, skills, agents, hooks
 ├── Bibliography_base.bib        # Centralized bibliography
 ├── paper/                       # Main LaTeX manuscript (source of truth)
@@ -45,17 +42,17 @@
 │   ├── tables/                  # Generated tables (.tex)
 │   ├── talks/                   # Beamer presentations
 │   ├── quarto/                  # Quarto RevealJS presentations
-│   ├── preambles/               # LaTeX headers / shared preamble
-│   ├── supplementary/           # Online appendix and supplements
-│   └── replication/             # Replication package for deposit
+│   ├── preambles/               # Shared LaTeX headers
+│   ├── supplementary/           # Online appendix
+│   └── replication/             # Submission / data-sharing package
 ├── data/                        # Project data
 │   ├── raw/                     # Original untouched data (often gitignored)
 │   └── cleaned/                 # Processed datasets ready for analysis
 ├── scripts/                     # Analysis code (R, Stata, Python, Julia)
 ├── quality_reports/             # Plans, session logs, reviews, scores
-├── explorations/                # Research sandbox (see rules)
-├── templates/                   # Session log, quality report templates
-└── master_supporting_docs/      # Reference papers and data docs
+├── explorations/                # Research sandbox
+├── templates/                   # Session log, quality report, spec templates
+└── master_supporting_docs/      # Clinical guidelines, protocols, reference docs
 ```
 
 ---
@@ -63,14 +60,17 @@
 ## Commands
 
 ```bash
-# Paper compilation (3-pass, XeLaTeX only)
+# Paper compilation (3-pass, XeLaTeX + biber)
 cd paper && TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
-BIBINPUTS=..:$BIBINPUTS bibtex main
+BIBINPUTS=..:$BIBINPUTS biber main
 TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
 TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
 
 # Talk compilation
-cd paper/talks && TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode talk.tex
+cd paper/talks && TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstopmode full_talk.tex
+
+# Quality scoring (if applicable to the target artifact)
+python3 scripts/quality_score.py <artifact>
 ```
 
 ---
@@ -84,7 +84,7 @@ cd paper/talks && TEXINPUTS=../preambles:$TEXINPUTS xelatex -interaction=nonstop
 | 95 | Submission | Aggregate + all components >= 80 |
 | -- | Advisory | Talks (reported, non-blocking) |
 
-See `quality.md` for weighted aggregation formula.
+See `quality.md` for weighted aggregation and medical checks.
 
 ---
 
@@ -92,37 +92,33 @@ See `quality.md` for weighted aggregation formula.
 
 | Command | What It Does |
 |---------|-------------|
-| `/new-project [topic]` | Full pipeline: idea → paper (orchestrated) |
+| `/new-project [topic]` | Full pipeline: question → manuscript |
 | `/discover [mode] [topic]` | Discovery: interview, literature, data, ideation |
-| `/strategize [question]` | Identification strategy or pre-analysis plan |
-| `/analyze [dataset]` | End-to-end data analysis |
-| `/write [section]` | Draft paper sections + humanizer pass |
-| `/review [file/--flag]` | Quality reviews (routes by target: paper, code, peer) |
-| `/revise [report]` | R&R cycle: classify + route referee comments |
-| `/talk [mode] [format]` | Create, audit, or compile Beamer presentations |
+| `/strategize [question]` | Study design, protocol, or registration plan |
+| `/analyze [dataset]` | End-to-end clinical or observational analysis |
+| `/write [section]` | Draft manuscript sections + humanizer pass |
+| `/review [file/--flag]` | Quality reviews (paper, code, peer, reporting) |
+| `/revise [report]` | Route referee comments and revision cycle |
+| `/talk [mode] [format]` | Create, audit, or compile slides |
 | `/submit [mode]` | Journal targeting → package → audit → final gate |
 | `/tools [subcommand]` | Utilities: commit, compile, validate-bib, journal, etc. |
 
 ---
 
-<!-- CUSTOMIZE: Replace the example entries below with your own
-     Beamer environments for talks. -->
+## Presentation Formats
 
-## Beamer Custom Environments (Talks)
-
-| Environment       | Effect        | Use Case       |
-|-------------------|---------------|----------------|
-| `[your-env]`      | [Description] | [When to use]  |
+| Format | Effect | Use Case |
+|--------|--------|----------|
+| `full-length` | Full narrative | Grand rounds, plenary, invited seminar |
+| `seminar` | Standard research talk | Department or journal club |
+| `short` | Condensed story | Conference oral presentation |
+| `lightning` | One-result pitch | Fast talk / poster spotlight |
 
 ---
 
 ## Output Organization
 
-<!-- Options: by-script (default) or by-purpose -->
 Output organization: by-script
-
-<!-- by-script:  paper/figures/main_regression/figure1.pdf, paper/tables/main_regression/table1.tex -->
-<!-- by-purpose: paper/figures/estimation/coefplot_main.pdf, paper/tables/robustness/alt_controls.tex -->
 
 ---
 
@@ -130,7 +126,10 @@ Output organization: by-script
 
 | Component | File | Status | Description |
 |-----------|------|--------|-------------|
-| Paper | `paper/main.tex` | [draft/submitted/R&R] | [Brief description] |
-| Data | `scripts/R/` | [complete/in-progress] | [Analysis description] |
-| Replication | `paper/replication/` | [not started/ready] | [Deposit status] |
-| Job Market Talk | `paper/talks/job_market_talk.tex` | -- | [Status] |
+| Manuscript | `paper/main.tex` | smoke-test fixture | Minimal IMRAD manuscript kept to validate XeLaTeX + biber |
+| Data | `scripts/R/` | planned | Clinical / registry / EHR analysis |
+| Replication | `paper/replication/` | not started | Submission package + reporting checklist |
+| Protocol | `quality_reports/strategy_memo_[topic].md` | planned | Study design, analysis plan, safety/ethics notes |
+| Talk | `paper/talks/full_talk.tex` | smoke-test fixture | Minimal Beamer deck kept to validate talk compilation |
+| Quarto Talk | `paper/quarto/full_talk.qmd` | smoke-test fixture | Minimal RevealJS deck kept to validate Quarto rendering |
+</coding_guidelines>
