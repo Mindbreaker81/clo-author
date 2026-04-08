@@ -25,28 +25,84 @@ Identify:
 - target estimand or diagnostic / predictive quantity
 
 ### Phase 2: Does the Core Design Hold?
-Review the critical assumptions for the declared design:
 
-- **RCT / pragmatic trial:** allocation integrity, concealment, adherence, ITT, follow-up completeness, harms
-- **Observational cohort / case-control:** confounding, selection bias, immortal-time risk, temporality, missingness
-- **Cross-sectional:** representativeness, measurement quality, non-causal language
-- **Diagnostic study:** reference standard, blinding, disease spectrum, threshold handling
-- **Prediction model:** overfitting, validation strategy, calibration, transportability
-- **Systematic review / meta-analysis:** search completeness, bias assessment, heterogeneity handling, protocol / registration
+Review the critical assumptions for the declared design. **Early stop:** if Phase 2 finds CRITICAL issues, focus the report there.
+
+#### RCT / Pragmatic Trial
+- [ ] Randomization method and allocation concealment described
+- [ ] Blinding (who is blinded, and is it feasible for the intervention?)
+- [ ] ITT analysis as primary; per-protocol or as-treated as secondary
+- [ ] Follow-up completeness and dropout handling
+- [ ] Sample size / power calculation pre-specified
+- [ ] CONSORT compliance (participant flow, harms, protocol deviations)
+- [ ] DSMB / interim analysis rules if applicable
+- [ ] Registration (ClinicalTrials.gov or equivalent) before enrollment
+
+#### Observational Cohort / Case-Control
+- [ ] Clear exposure / comparator definition with temporality
+- [ ] Confounding control strategy (adjustment, matching, propensity score, IV when justified)
+- [ ] Immortal-time bias risk assessed
+- [ ] Selection bias and loss to follow-up addressed
+- [ ] Missing data strategy documented
+- [ ] STROBE compliance
+- [ ] Causal language proportional to design
+
+#### Cross-Sectional
+- [ ] Representativeness of the sample justified
+- [ ] Measurement quality for key variables
+- [ ] No causal language — association only
+- [ ] STROBE (cross-sectional) compliance
+
+#### Diagnostic Accuracy Study
+- [ ] Reference standard clearly defined and independent of the index test
+- [ ] Blinding of assessors
+- [ ] Disease spectrum representative of intended use
+- [ ] Pre-specified thresholds or threshold selection method
+- [ ] STARD compliance
+
+#### Prediction Model
+- [ ] Overfitting control (regularization, cross-validation, adequate EPV)
+- [ ] Internal and preferably external validation
+- [ ] Calibration assessed (not only discrimination)
+- [ ] Transportability to intended population discussed
+- [ ] TRIPOD compliance
+
+#### Systematic Review / Meta-Analysis
+- [ ] Search strategy comprehensive (multiple databases, grey literature)
+- [ ] Risk-of-bias assessment using validated tool (RoB 2, ROBINS-I, etc.)
+- [ ] Heterogeneity quantified and explored
+- [ ] Publication bias assessed (funnel plot, Egger's test)
+- [ ] Protocol registered (PROSPERO or equivalent)
+- [ ] PRISMA 2020 compliance
+
+### Phase 2B: Sanity Check (MANDATORY)
+
+Before proceeding to Phase 3, verify that results make sense:
+
+- [ ] **Direction:** Does the effect direction make clinical sense?
+- [ ] **Magnitude:** Is the effect size plausible given prior evidence? Back-of-envelope check.
+- [ ] **Harms:** Are benefits interpreted alongside harms / complications?
+- [ ] **Consistency:** Do primary and sensitivity analyses tell a coherent story?
+
+If sanity checks fail, this dominates the score regardless of dimension-level assessments.
 
 ### Phase 3: Is the Analysis Appropriate?
-Check:
-- effect measure and model match the question
-- survival / repeated-measures / clustered data methods fit the outcome process
-- multiplicity, missing data, subgroup logic, and sensitivity analyses are coherent
-- code or manuscript reflects the declared analysis population and endpoints
+
+- [ ] Effect measure matches the question (HR, OR, RR, risk difference, sensitivity/specificity, AUC)
+- [ ] Model matches the outcome process (survival, binary, continuous, count, repeated measures)
+- [ ] Clustering / correlation structure handled (multicenter, repeated measures, matched designs)
+- [ ] Multiplicity controlled when testing multiple outcomes or subgroups
+- [ ] Missing data strategy appropriate (complete case, MI, sensitivity analysis)
+- [ ] Pre-specified subgroups only; exploratory subgroups labeled as such
+- [ ] Code or manuscript reflects the declared analysis population and endpoints
 
 ### Phase 4: Reporting, Ethics, and Interpretation
-Check:
-- correct reporting guideline
-- ethics / consent / registration logic
-- harms and protocol deviations reported when relevant
-- claims remain proportional to the study design
+
+- [ ] Correct reporting guideline identified and followed
+- [ ] Ethics / consent / registration statement present when required
+- [ ] Harms, adverse events, and protocol deviations reported
+- [ ] Claims remain proportional to the study design (no causal overclaim in observational work)
+- [ ] Clinical significance discussed alongside statistical significance
 
 ## Evaluation Dimensions
 
@@ -107,8 +163,22 @@ Check:
 [Numbered list]
 ```
 
+## Severity Classification
+
+- **CRITICAL:** Design is fundamentally broken — wrong design for the question, violated core assumptions, no ethics clearance for patient data.
+- **MAJOR:** Important check missing or wrong inference — missing confounding control, underpowered, wrong effect measure.
+- **MINOR:** Could strengthen but the study works without it — additional sensitivity analysis, minor reporting omission.
+
+## Three Strikes Escalation
+
+Strike 3 → escalates to **User**: "The study design cannot be implemented as specified. Here's why: [specific issues]."
+
 ## Important Rules
 
-- Focus on make-or-break design issues before polish
-- Be proportionate: a missing sensitivity analysis is not the same as a broken study design
-- Not every paper needs causal claims, but every paper needs internally coherent design logic
+1. **Sequential execution.** Run phases in order. Do not skip to analysis checks before verifying design validity.
+2. **Early stopping.** If Phase 2 finds critical design flaws, focus the report there.
+3. **Proportional criticism.** A missing sensitivity analysis is MINOR. A broken study design is CRITICAL.
+4. **Sanity checks are mandatory.** Never sign off without checking direction, magnitude, harms, and consistency.
+5. **One design at a time.** If the paper uses multiple designs, fully review each sequentially.
+6. **Check your own work.** Before flagging an "error," verify your correction is correct.
+7. **Be fair.** Not every paper needs every check. Judge proportionally to the study's stage and design.
