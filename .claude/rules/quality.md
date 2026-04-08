@@ -1,35 +1,24 @@
 # Quality: Scoring, Thresholds, and Severity
 
----
-
 ## 1. Scoring Protocol
-
-**How individual agent scores aggregate into the overall project score.**
 
 ### Weighted Aggregation
 
-The overall project score that gates submission (>= 95) is a weighted aggregate:
+The overall project score that gates submission is the weighted aggregate below:
 
 | Component | Weight | Source Agent |
 |-----------|--------|-------------|
-| Literature coverage | 10% | librarian-critic's score of librarian |
-| Data quality | 10% | explorer-critic's score of explorer |
-| Identification validity | 25% | strategist-critic's score of strategist |
-| Code quality | 15% | coder-critic's score of coder |
-| Paper quality | 25% | Average of domain-referee + methods-referee scores |
-| Manuscript polish | 10% | writer-critic's score of writer |
-| Replication readiness | 5% | verifier pass/fail (0 or 100) |
+| Literature coverage | 15% | librarian-critic |
+| Data quality | 15% | explorer-critic |
+| Study design validity | 25% | strategist-critic |
+| Code quality | 10% | coder-critic |
+| Paper quality | 25% | Average of domain-referee + methods-referee |
+| Manuscript polish | 5% | writer-critic |
+| Replication / submission readiness | 5% | verifier |
 
 ### Minimum Per Component
 
-No component can be below 80 for submission. A perfect literature review can't compensate for broken identification.
-
-### Score Sources
-
-- Each critic produces a score from 0 to 100 based on its deduction table
-- Scores start at 100 and deduct for issues found
-- The verifier is pass/fail (mapped to 0 or 100)
-- Referee scores are averaged: `(domain-referee + methods-referee) / 2`
+No component can be below 80 for submission.
 
 ### Gate Thresholds
 
@@ -42,47 +31,44 @@ No component can be below 80 for submission. A perfect literature review can't c
 
 ### When Components Are Missing
 
-Not every project uses all components. If a component hasn't been scored:
-- It's excluded from the weighted average
-- Remaining weights are renormalized
-- Example: no literature review → weights become 11%, 28%, 17%, 28%, 11%, 6%
+If a component has not been scored, exclude it and renormalize the remaining weights.
 
 ---
 
-## 2. Severity Gradient
+## 2. Medical Gate Add-ons
 
-**Critics calibrate severity based on the phase of the project.**
+The following checks should be treated as high-severity quality items when applicable:
 
-### Phase-Based Severity
+- Correct reporting guideline matched to design (CONSORT, STROBE, PRISMA, STARD, TRIPOD)
+- Ethics / IRB / consent statement
+- Trial or protocol registration for interventional work
+- Clinically meaningful primary outcomes and effect sizes
+- Harms / adverse-event reporting
+- Missing-data strategy and sensitivity analysis
+- Conflict-of-interest and funding disclosure
+- Clear distinction between statistical significance and clinical significance
+
+---
+
+## 3. Severity Gradient
 
 | Phase | Critic Stance | Rationale |
 |-------|--------------|-----------|
-| Discovery | Encouraging (low severity) | Early ideas need space to develop |
-| Strategy | Constructive (medium severity) | Identification must be sound, but alternatives should be suggested |
-| Execution | Strict (high severity) | Code and paper are near-final — bugs are costly |
-| Peer Review | Adversarial (maximum severity) | Simulates real referees — no mercy |
-| Presentation | Professional (medium-high) | Talks should be polished but scored as advisory |
+| Discovery | Encouraging | Early ideas need room to develop |
+| Design | Constructive | Study design and protocol flaws should be caught early |
+| Execution | Strict | Errors in analysis or manuscript structure are costly |
+| Peer Review | Adversarial | Simulates real clinical peer review |
+| Presentation | Professional | Talks should be polished but remain advisory |
 
-### How It Works
+### Example Deduction Scaling
 
-The Orchestrator includes the severity level in the critic's prompt:
-
-```
-You are reviewing at SEVERITY: HIGH (Execution phase).
-Flag all issues. Do not suggest "consider" — state what must change.
-```
-
-### Deduction Scaling
-
-The same issue may have different deductions by phase:
-
-| Issue | Discovery | Strategy | Execution | Peer Review |
-|-------|-----------|----------|-----------|-------------|
-| Missing citation | -2 | -5 | -10 | -15 |
-| Notation inconsistency | -1 | -3 | -5 | -5 |
-| Hedging language | — | — | -3 | -5 |
-| Missing robustness check | — | -5 | -15 | -20 |
+| Issue | Discovery | Design | Execution | Peer Review |
+|-------|-----------|--------|-----------|-------------|
+| Missing key clinical citation | -2 | -5 | -10 | -15 |
+| Missing ethics / registration detail | -5 | -10 | -15 | -20 |
+| Missing harms analysis | — | -5 | -15 | -20 |
+| Overstated causal language in observational work | -2 | -5 | -10 | -15 |
 
 ### Principle
 
-Early phases are about getting the direction right. Late phases are about getting the details right. Critics should match their tone and rigor to the phase.
+Early phases are about choosing the right clinical question and defensible design. Late phases are about correctness, transparency, and submission readiness.

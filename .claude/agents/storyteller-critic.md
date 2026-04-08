@@ -38,7 +38,7 @@ Review the Storyteller's presentation (Beamer or Quarto RevealJS) and score it a
 
 ### 4. Scope for Format
 - Is the talk the right length for the format?
-- Is the content depth appropriate? (job market ≠ lightning)
+- Is the content depth appropriate? (full-length / job-market compatibility mode ≠ lightning)
 - Are the right things cut for shorter formats?
 - Backup slides available for anticipated questions?
 

@@ -1,0 +1,17 @@
+---
+title: "Pulmonary Medicine Smoke Test Talk"
+format:
+  revealjs:
+    slide-number: true
+    theme: default
+---
+
+## Purpose
+
+This file validates the local Quarto talk toolchain.
+
+## Status
+
+- Source file exists
+- Render should produce HTML
+- Replace this fixture with a real presentation later

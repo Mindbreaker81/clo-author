@@ -95,7 +95,7 @@ The Editor does desk review first, then dispatches referees with dispositions (S
 
 | Agent | What it does | Scoring |
 |-------|-------------|---------|
-| **Verifier** | 10-check AEA replication audit | Pass/fail (binary) |
+| **Verifier** | submission-package and reporting audit | Pass/fail (binary) |
 
 ### Talks (parallel with Peer Review)
 
@@ -278,7 +278,7 @@ Claude Code can spawn **multiple agents simultaneously** using the Task tool.
 | Scenario | Sequential (slow) | Parallel (fast) |
 |----------|-------------------|-----------------|
 | Paper review | Run each agent sequentially | Run strategist-critic + coder-critic + writer-critic + Verifier simultaneously |
-| Literature search | Search one database at a time | Spawn agents for journals, NBER, SSRN |
+| Literature search | Search one database at a time | Spawn agents for journals, PubMed, Cochrane, and registries |
 | Data exploration | Check one source at a time | Spawn agents for each data category |
 
 The orchestrator recognizes independent subtasks and spawns parallel agents automatically.
@@ -317,7 +317,7 @@ The Clo-Author inherits a lecture production pipeline from [its origin](https://
 
 ## Creating Talks from Papers
 
-The `/talk` skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (job market, seminar, short, lightning). Supports both Beamer (output to `Paper/talks/`) and Quarto RevealJS (output to `Paper/quarto/` via `--quarto` flag). All content derives from `Paper/main.tex`.
+The `/talk` skill dispatches the Storyteller (creator) and storyteller-critic (reviewer) to generate presentations in 4 formats (full-length / `job-market` compatibility mode, seminar, short, lightning). Supports both Beamer (output to `paper/talks/`) and Quarto RevealJS (output to `paper/quarto/` via `--quarto` flag). All content derives from `paper/main.tex`.
 
 ## Replication-First Coding
 

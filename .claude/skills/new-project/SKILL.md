@@ -100,7 +100,7 @@ Before any work begins:
    - Weighted aggregate score computed
 
 8. **Run `/review --peer`** for simulated peer review:
-   - domain-referee (subject expertise) + methods-referee (econometrics)
+   - domain-referee (subject expertise) + methods-referee (study design / biostatistics)
    - Independent, blind reports
    - Orchestrator synthesizes editorial decision
 

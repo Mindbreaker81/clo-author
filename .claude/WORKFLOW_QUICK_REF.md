@@ -13,11 +13,11 @@
     ↓
 /discover data → Data Assessment (Explorer + explorer-critic)
     ↓
-/strategize → Strategy Memo (Strategist + strategist-critic)
+/strategize → Study Design / Protocol Memo (Strategist + strategist-critic)
     ↓
 /analyze → Scripts + Output (Coder/Data-engineer + coder-critic)
     ↓
-/write → Paper Sections (Writer + writer-critic)
+/write → Manuscript Sections (Writer + writer-critic)
     ↓
 /review → Weighted Score + Peer Review (domain-referee + methods-referee)
     ↓
@@ -32,16 +32,16 @@ Enter at any stage. Use `/new-project` for the full pipeline.
 
 | Command | What It Does |
 |---------|-------------|
-| `/new-project [topic]` | Full pipeline: idea to paper (orchestrated) |
-| `/discover [interview\|lit\|data]` | Research spec, literature review, or data discovery |
-| `/strategize [question]` | Identification strategy + Econometrician review |
+| `/new-project [topic]` | Full pipeline: question to manuscript |
+| `/discover [interview|lit|data]` | Research spec, literature review, or data discovery |
+| `/strategize [question]` | Study design + methods review |
 | `/analyze [dataset]` | End-to-end analysis: scripts, output, code review |
-| `/write [section]` | Draft paper sections + humanizer pass |
-| `/review [file]` | Multi-agent quality review + weighted score |
-| `/revise [report]` | Route referee comments, draft response letter |
-| `/talk [format]` | Beamer presentation from paper (4 formats) |
+| `/write [section]` | Draft manuscript sections + humanizer pass |
+| `/review [file]` | Multi-agent quality review + peer review |
+| `/revise [report]` | Route referee comments and response planning |
+| `/talk [format]` | Presentation creation / audit |
 | `/submit [journal]` | Final gate: score >= 95, all components >= 80 |
-| `/tools [subcommand]` | commit, compile, validate-bib, journal, learn, deploy, context |
+| `/tools [subcommand]` | commit, compile, validate-bib, journal, context, deploy, learn |
 
 ---
 
@@ -49,38 +49,38 @@ Enter at any stage. Use `/new-project` for the full pipeline.
 
 | Score | Gate | What It Means |
 |-------|------|--------------|
-| >= 95 | Submission | Ready for top-5 (all components >= 80) |
-| >= 90 | PR | Ready to merge (minor polish recommended) |
-| >= 80 | Commit | Ready to commit (address major issues before submission) |
-| < 80 | **Blocked** | Must fix critical/major issues |
-| -- | Advisory | Talks: reported only, non-blocking |
+| >= 95 | Submission | Ready for journal submission |
+| >= 90 | PR | Ready to merge |
+| >= 80 | Commit | Ready to commit |
+| < 80 | **Blocked** | Must fix critical / major issues |
+| -- | Advisory | Talks only |
 
-Weighted aggregate: Literature 10% + Data 10% + Identification 25% + Code 15% + Paper 25% + Polish 10% + Replication 5%
+Weighted aggregate: Literature 15% + Data 15% + Study design 25% + Code 10% + Paper 25% + Polish 5% + Replication 5%
 
 ---
 
 ## I Ask You When
 
 - **Design forks:** "Option A vs. Option B. Which?"
-- **Identification choice:** "CS DiD vs. Sun-Abraham for this setting?"
-- **Disagreement with referee:** "DISAGREE classification — please review"
-- **After 3 strikes:** "Coder and coder-critic can't agree — your call"
+- **Endpoint choice:** "Time-to-event vs binary endpoint as primary?"
+- **Registry / ethics ambiguity:** "Which registration or approval path applies?"
+- **After 3 strikes:** "Worker and critic disagree — your call"
 
 ## I Just Execute When
 
-- Code fix is obvious (bug, pattern)
-- Verification (compilation, tolerance checks)
-- Documentation (logs, commits)
-- Plotting (per established standards)
+- Code fix is obvious
+- Verification or static checks are mechanical
+- Reporting alignment is straightforward
+- Formatting or routing changes are clearly implied by the chosen design
 
 ---
 
 ## Exploration Mode
 
 For experimental work:
-- Work in `explorations/` folder
+- Work in `explorations/`
 - 60/100 quality threshold (vs. 80/100 for production)
-- No plan needed — just a research value check
+- No plan needed — just a research-value check
 - See `.claude/rules/content-standards.md`
 
 ---

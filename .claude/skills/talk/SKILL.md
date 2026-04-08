@@ -26,7 +26,7 @@ Generate a presentation from the paper.
 
 | Format | Slides | Duration | Content Scope |
 |--------|--------|----------|---------------|
-| job-market | 40-50 | 45-60 min | Full story, all results, mechanism, robustness |
+| job-market (full-length compatibility mode) | 40-50 | 45-60 min | Full story, all results, mechanism, robustness |
 | seminar | 25-35 | 30-45 min | Motivation, main result, 2 robustness, conclusion |
 | short | 10-15 | 15 min | Question, method, key result, implication |
 | lightning | 3-5 | 5 min | Hook, one result, so-what |
@@ -35,7 +35,7 @@ Generate a presentation from the paper.
 
 **Step 1: Parse Arguments**
 
-- **Format** (required): `job-market` | `seminar` | `short` | `lightning`
+- **Format** (required): `job-market` | `seminar` | `short` | `lightning` (`job-market` is the compatibility label for a full-length / grand-rounds style talk)
 - **Paper path** (optional): defaults to `paper/main.tex`
 - **Engine**: Beamer (default) or Quarto RevealJS (`--quarto`)
 - If no format specified, ask the user.
@@ -119,6 +119,6 @@ cd paper/quarto && quarto render [file]
 - **Figures over tables.** Audiences absorb figures instantly. Put regression tables in backup slides for Q&A.
 - **Less is more.** Especially for short and lightning formats — ruthlessly cut.
 - **One idea per slide.** If you need a second point, make a second slide.
-- **Audience calibration.** Job market = demonstrate rigor and command of the literature. Seminar = sell the interesting result. Short = method and key finding. Lightning = sell the idea in one breath.
+- **Audience calibration.** Full-length / `job-market` = comprehensive invited talk or grand rounds. Seminar = standard research talk. Short = method and key finding. Lightning = sell the idea in one breath.
 - **Advisory scoring.** Talk scores don't block commits.
 - **Worker-critic pairing.** Storyteller creates, storyteller-critic critiques. Never skip the review.
