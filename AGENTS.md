@@ -25,12 +25,18 @@ clo-author/
 ├── explorations/              # Research sandbox
 ├── templates/                 # Session log, quality report, spec templates
 ├── master_supporting_docs/    # Reference papers and data documentation
-└── .claude/                   # Claude Code infrastructure
-    ├── agents/                # Worker-critic agent definitions
-    ├── skills/                # Slash command implementations
-    ├── rules/                 # Governance, quality, workflow rules
-    ├── references/            # Journal profiles, domain profile
-    └── hooks/                 # Pre-compact, protect-files, post-compact
+├── .claude/                   # Claude Code infrastructure (source of truth)
+│   ├── agents/                # Worker-critic agent definitions (.md)
+│   ├── skills/                # Slash command implementations
+│   ├── rules/                 # Governance, quality, workflow rules
+│   ├── references/            # Journal profiles, domain profile
+│   └── hooks/                 # Pre-compact, protect-files, post-compact
+├── .codex/                    # OpenAI Codex infrastructure (derived)
+│   ├── config.toml            # Project config
+│   ├── agents/                # Agent definitions (.toml, generated)
+│   ├── rules/                 # Execution rules (Starlark)
+│   └── hooks/                 # Lifecycle hooks
+└── .agents/                   # Shared skills (symlinks to .claude/skills/)
 ```
 
 ## Build & Compilation Commands
@@ -39,7 +45,7 @@ Paper compilation requires XeLaTeX with a 3-pass build:
 
 ```bash
 cd paper && TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
-BIBINPUTS=..:$BIBINPUTS bibtex main
+BIBINPUTS=..:$BIBINPUTS biber main
 TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
 TEXINPUTS=preambles:$TEXINPUTS xelatex -interaction=nonstopmode main.tex
 ```
@@ -115,3 +121,20 @@ Peer review uses `editor`, `domain-referee`, and `methods-referee` agents.
 3. **Single source of truth** -- `paper/main.tex` is authoritative; talks and supplements derive from it.
 4. **Spec-then-plan** -- for complex tasks (>1 hour or >3 files), run requirements spec before planning.
 5. **Memory persistence** -- corrections go in `MEMORY.md` as `[LEARN:category]` entries.
+
+## Dual-Tool Support
+
+This repository supports both **Claude Code** (Anthropic) and **OpenAI Codex**.
+
+| Tool | Config Dir | Agent Format | Skill Dir |
+|------|-----------|-------------|-----------|
+| Claude Code | `.claude/` | YAML frontmatter `.md` | `.claude/skills/` |
+| OpenAI Codex | `.codex/` | TOML `.toml` | `.agents/skills/` (symlinks) |
+
+**Source of truth:** `.claude/` directory. Run `scripts/sync_codex.sh` after modifying agents or skills to regenerate Codex infrastructure.
+
+### Protected Files (applies to both tools)
+
+Do NOT modify without explicit user approval:
+- `.claude/settings.json` / `.codex/config.toml`
+- `strategy-memo-*.md`, `referee-report-*.md`, `quality-score-*.json`

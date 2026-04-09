@@ -1,0 +1,81 @@
+# Safety rules for Codex sandbox execution
+
+# Block destructive recursive deletion
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "Destructive recursive deletion blocked. Use targeted rm instead.",
+    match = ["rm -rf /", "rm -rf ~", "rm -rf ."],
+)
+
+prefix_rule(
+    pattern = ["rm", "-r"],
+    decision = "prompt",
+    justification = "Recursive deletion requires confirmation.",
+)
+
+# Git read operations -- allow without friction
+prefix_rule(
+    pattern = ["git", "status"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["git", "diff"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["git", "log"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["git", "add"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "allow",
+)
+
+# Git push requires confirmation
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Push to remote requires confirmation.",
+)
+
+# LaTeX compilation
+prefix_rule(
+    pattern = ["xelatex"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["biber"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["latexmk"],
+    decision = "allow",
+)
+
+# Analysis scripts
+prefix_rule(
+    pattern = ["Rscript"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["python3"],
+    decision = "allow",
+)
+
+# Quarto rendering
+prefix_rule(
+    pattern = ["quarto", "render"],
+    decision = "allow",
+)

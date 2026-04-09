@@ -249,7 +249,7 @@ Despues del script automatico, revisar manualmente:
 
 ### 2.6 Verificacion Fase 2
 
-- [ ] `python3 scripts/convert_agents_to_codex.py` ejecuta sin errores y genera 20 ficheros .toml
+- [ ] `python3 scripts/convert_agents_to_codex.py` ejecuta sin errores y genera 18 ficheros .toml
 - [ ] Cada .toml tiene name, description, sandbox_mode, developer_instructions
 - [ ] Critics tienen `sandbox_mode = "read-only"`
 - [ ] Workers tienen `sandbox_mode = "workspace-write"`
@@ -681,7 +681,7 @@ clo-author/
 │
 ├── .claude/                     # FUENTE DE VERDAD
 │   ├── settings.json
-│   ├── agents/                  # 20 agentes (.md)
+│   ├── agents/                  # 18 agentes (.md)
 │   ├── skills/                  # 11 skills (SKILL.md)
 │   ├── rules/                   # Reglas narrativas (.md)
 │   ├── hooks/                   # Scripts Python/Bash
@@ -690,7 +690,7 @@ clo-author/
 │
 ├── .codex/                      # DERIVADO (generado por sync_codex.sh)
 │   ├── config.toml              # Manual (no generado)
-│   ├── agents/                  # 20 agentes (.toml) — generados
+│   ├── agents/                  # 18 agentes (.toml) — generados
 │   ├── rules/
 │   │   └── safety.rules         # Manual (Starlark)
 │   ├── hooks.json               # Manual
@@ -731,7 +731,7 @@ clo-author/
 | 10 | `scripts/sync_codex.sh` | Manual | 6 |
 
 **Total ficheros manuales:** 8
-**Total ficheros generados:** 20 agentes + 11 symlinks = 31
+**Total ficheros generados:** 18 agentes + 11 symlinks = 29
 
 ---
 
