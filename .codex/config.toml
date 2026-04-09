@@ -1,0 +1,23 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+# --- Modelo y ejecucion ---
+model = "gpt-4.1"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+# Codex lee AGENTS.md por defecto; CLAUDE.md se anade como fallback
+project_doc_fallback_filenames = ["CLAUDE.md"]
+project_doc_max_bytes = 65536
+
+# --- Features ---
+[features]
+multi_agent = true
+codex_hooks = true
+shell_tool = true
+web_search = true
+
+# --- Subagentes ---
+[agents]
+max_threads = 6
+max_depth = 1

@@ -17,7 +17,7 @@ El repo `clo-author` esta disenado como un framework de investigacion medica orq
 ```
 .claude/
 ├── settings.json          # Permisos + hooks (JSON)
-├── agents/                # 20 agentes en Markdown con frontmatter YAML
+├── agents/                # 18 agentes en Markdown con frontmatter YAML
 │   ├── orchestrator.md    # name, description, tools, model
 │   ├── coder.md
 │   ├── writer.md
@@ -132,7 +132,7 @@ Todo esto es contenido agnostico de la herramienta. Funciona igual.
 ## 6. Lo Que Necesita Traduccion
 
 ### 6.1 Agentes: MD → TOML
-**20 ficheros** de agente necesitan conversion. Script automatizable:
+**18 ficheros** de agente necesitan conversion. Script automatizable:
 
 ```python
 # Pseudocodigo de conversion
@@ -236,7 +236,7 @@ prefix_rule(
 4. Verificar que Codex lee AGENTS.md correctamente
 
 ### Fase 2: Traduccion de agentes (esfuerzo: 1-2 dias)
-1. Escribir script `scripts/convert_agents_to_codex.py` que convierta los 20 agentes de `.claude/agents/*.md` → `.codex/agents/*.toml`
+1. Escribir script `scripts/convert_agents_to_codex.py` que convierta los 18 agentes de `.claude/agents/*.md` → `.codex/agents/*.toml`
 2. Adaptar `developer_instructions` para referenciar convenciones Codex
 3. Asignar `sandbox_mode` apropiado a cada agente (critics → read-only, workers → workspace-write)
 4. Configurar `model` y `model_reasoning_effort` por agente
