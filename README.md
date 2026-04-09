@@ -13,10 +13,20 @@ An open-source research architecture that turns your terminal into a medical-res
 
 ## Quick Start
 
+### With Claude Code (Anthropic)
+
 ```bash
 gh repo fork hugosantanna/clo-author --clone
 cd clo-author
 claude
+```
+
+### With OpenAI Codex
+
+```bash
+gh repo fork hugosantanna/clo-author --clone
+cd clo-author
+codex
 ```
 
 Then paste a prompt like:
@@ -187,7 +197,10 @@ Every creator has a paired critic.
 ```
 your-project/
 ├── CLAUDE.md
-├── .claude/
+├── AGENTS.md
+├── .claude/                 # Claude Code infrastructure (source of truth)
+├── .codex/                  # OpenAI Codex infrastructure (derived)
+├── .agents/                 # Shared skills (symlinks to .claude/skills/)
 ├── Bibliography_base.bib
 ├── paper/
 │   ├── main.tex
@@ -237,11 +250,27 @@ These files are **toolchain fixtures, not real project content**. Keep them as r
 
 | Tool | Required For |
 |------|--------------|
-| Claude Code | Everything |
+| Claude Code or OpenAI Codex | Agent orchestration (at least one) |
 | XeLaTeX + biber | Paper compilation |
 | R / Python / Stata / Julia | Analysis |
 | gh CLI | GitHub integration |
 | Quarto (optional) | Guide site / web slides |
+
+---
+
+## Using with OpenAI Codex
+
+This repo supports both Claude Code and OpenAI Codex. The `.claude/` directory is the **source of truth** — `.codex/` is derived from it.
+
+- **Agents:** 18 agents are auto-converted from `.claude/agents/*.md` (YAML frontmatter) to `.codex/agents/*.toml` (TOML). Critics run in `read-only` sandbox; workers in `workspace-write`.
+- **Skills:** `.agents/skills/` contains symlinks to `.claude/skills/*/` — same format (agentskills.io), shared by both tools.
+- **Sync:** After modifying agents or skills in `.claude/`, run `scripts/sync_codex.sh` to regenerate the Codex infrastructure.
+
+```bash
+bash scripts/sync_codex.sh
+```
+
+See `AGENTS.md` for the full dual-tool support reference and protected files policy.
 
 ---
 
