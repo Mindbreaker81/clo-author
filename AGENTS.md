@@ -75,7 +75,7 @@ This project uses a weighted aggregate scoring system (0-100) enforced by worker
 | Submission | >= 95         | Aggregate + all components >= 80   |
 | Talks      | Advisory      | Reported but non-blocking          |
 
-Weighted components: Literature (10%), Data quality (10%), Identification validity (25%), Code quality (15%), Paper quality (25%), Manuscript polish (10%), Replication readiness (5%).
+Weighted components: Literature (10%), Data quality (10%), Study design validity (25%), Code quality (15%), Paper quality (25%), Manuscript polish (10%), Replication readiness (5%).
 
 ## Commit & Pull Request Guidelines
 
@@ -100,7 +100,7 @@ The system uses adversarial worker-critic pairs. Critics review but never edit f
 |-----------------|---------------------|-------------------------------|
 | librarian       | librarian-critic    | Literature coverage           |
 | explorer        | explorer-critic     | Data feasibility              |
-| strategist      | strategist-critic   | Identification strategy       |
+| strategist      | strategist-critic   | Study design strategy         |
 | coder           | coder-critic        | Script quality                |
 | data-engineer   | coder-critic        | Data pipeline                 |
 | writer          | writer-critic       | Manuscript polish             |
