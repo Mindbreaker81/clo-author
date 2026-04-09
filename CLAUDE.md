@@ -33,7 +33,9 @@
 ```
 [YOUR-PROJECT]/
 ├── CLAUDE.md                    # This file
-├── .claude/                     # Rules, skills, agents, hooks
+├── .claude/                     # Claude Code infrastructure (source of truth)
+├── .codex/                      # OpenAI Codex infrastructure (derived)
+├── .agents/                     # Shared skills (symlinks to .claude/skills/)
 ├── Bibliography_base.bib        # Centralized bibliography
 ├── paper/                       # Main LaTeX manuscript (source of truth)
 │   ├── main.tex                 # Primary paper file
@@ -132,4 +134,5 @@ Output organization: by-script
 | Protocol | `quality_reports/strategy_memo_[topic].md` | planned | Study design, analysis plan, safety/ethics notes |
 | Talk | `paper/talks/full_talk.tex` | smoke-test fixture | Minimal Beamer deck kept to validate talk compilation |
 | Quarto Talk | `paper/quarto/full_talk.qmd` | smoke-test fixture | Minimal RevealJS deck kept to validate Quarto rendering |
+| Codex Support | `.codex/`, `.agents/` | implemented | Dual-tool infrastructure; run `scripts/sync_codex.sh` after agent changes |
 </coding_guidelines>
