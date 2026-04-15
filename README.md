@@ -1,12 +1,12 @@
 # The Clo-Author: AI Research Architecture for Medical and Clinical Research
 
-[![Version](https://img.shields.io/github/v/release/hugosantanna/clo-author?style=flat-square&color=b44dff&label=version)](CHANGELOG.md)
+[![Version](https://img.shields.io/github/v/release/Mindbreaker81/clo-author?style=flat-square&color=b44dff&label=version)](CHANGELOG.md)
 
 > **Work in progress.** This repo is evolving as the workflow is adapted to clinical and translational research.
 
 An open-source research architecture that turns your terminal into a medical-research assistant — from literature review to journal submission. The default calibration in this fork is **pulmonary medicine / interventional pulmonology**, but the structure is reusable across clinical specialties.
 
-**Live guide:** [hugosantanna.github.io/clo-author](https://hugosantanna.github.io/clo-author/)
+**Live guide:** [hugosantanna.github.io/clo-author](https://hugosantanna.github.io/clo-author/) (original upstream)
 **Built on:** [Pedro Sant'Anna's claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow)
 
 ---
@@ -16,7 +16,7 @@ An open-source research architecture that turns your terminal into a medical-res
 ### With Claude Code (Anthropic)
 
 ```bash
-gh repo fork hugosantanna/clo-author --clone
+gh repo clone Mindbreaker81/clo-author
 cd clo-author
 claude
 ```
@@ -24,7 +24,7 @@ claude
 ### With OpenAI Codex
 
 ```bash
-gh repo fork hugosantanna/clo-author --clone
+gh repo clone Mindbreaker81/clo-author
 cd clo-author
 codex
 ```
